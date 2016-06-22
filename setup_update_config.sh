@@ -9,4 +9,4 @@ if [[ $? -ne 0 ]]; then
     echo "$(date) Install mydrive terminated in ERROR"
     exit $?
 fi
-bash $setupdir/update_config/install_update_config.sh
+bash $setupdir/update_config/install_update_config.sh $3

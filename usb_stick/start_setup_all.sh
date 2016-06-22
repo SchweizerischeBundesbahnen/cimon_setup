@@ -38,7 +38,7 @@ bash ./setup.sh
 
 # free sbb update config
 echo "Setup update config..."
-bash ./setup_update_config.sh $2 $3
+bash ./setup_update_config.sh $2 $3 $1
 # free sbb if not allready installed
 if [[ ! -d /opt/cimon/freesbb ]]; then
     echo "Setup free sbb..."
@@ -46,3 +46,5 @@ if [[ ! -d /opt/cimon/freesbb ]]; then
 fi
 
 popd
+read -n1 -rsp $'Done, press any key to reboot or Ctrl+C to exit...\n'
+reboot
