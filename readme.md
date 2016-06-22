@@ -3,13 +3,30 @@ Copyright (C) Schweizerische Bundesbahnen SBB 2016, Apache Licence 2.0. Author: 
 
 Setup the cimon device, start/stop scripts, auto update and so on. Tested on Raspberry Pi 3.
 
-## Recomended usage (setup)
-* Setup keyboard, freesbb and config key if required as descripted in prerequistes
-* Clone this repository 
-* Set the hostname using set_hostname.sh
-* Call setup.sh
-* Call setup_update_config.sh
-* Call setup_freesbb.sh if not installed allready and if FreeSBB WLAN is required
+## Recomended usage with USB Stick (setup)
+
+### On Host machine (Windows)
+    
+    git clone https://github.com/SchweizerischeBundesbahnen/cimon_setup.git
+    cd cimon_setup\usb_stick
+    pack_usb_stick.bat
+ 
+### On Host machine (Linux)
+
+    git clone https://github.com/SchweizerischeBundesbahnen/cimon_setup.git
+    cd cimon_setup/usb_stick
+    ./pack_usb_stick.sh
+    
+### On Raspberry Pi
+
+* Setup keyboard
+* Run the script on the memory stick
+
+    cd /media/pi/<usb_stick>
+    bash ./start_setup_all.sh <hostname> <mydrive_user> <mydrive_password>
+
+    # alternatively, if you want to use another branch, for instance develop, begin with
+    export CIMON_BRANCH=develop
 
 ## Prerequisites
 * Setup Keyboard (Keyboard: "Menu->Preferences->Rasberry Pi Configuration") if required (default is UK)
@@ -33,8 +50,12 @@ Setup the cimon device, start/stop scripts, auto update and so on. Tested on Ras
     
     mkdir /tmp/cimon_github
     cd /tmp/cimon_github
-    # per default use master branch, if not user -b <branch> (for instance -b develop)
+    # per default use master branch
     git clone https://github.com/SchweizerischeBundesbahnen/cimon_setup.git -b master
+
+    # alternatively, if you want ot use another branch, for instance develop
+    export CIMON_BRANCH=develop
+    git clone https://github.com/SchweizerischeBundesbahnen/cimon_setup.git -b $CIMON_BRANCH 
 
 ## set_hostname.sh: Set a meaningfull hostname
 Per default all raspberries have the same hostname. Set something usefull.
