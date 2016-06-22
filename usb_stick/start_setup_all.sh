@@ -3,7 +3,7 @@
 
 usbstick=$(dirname $(readlink -f $0))
 
-if [[ ! $1 || ! $2 || ! $2 ]]; then
+if [[ ! $1 || ! $2 || ! $3 ]]; then
     echo "3 Parameters <hostname> <mydrive_user> <mydrive_password> required"
     exit 3
 fi
@@ -24,7 +24,7 @@ pushd .
 mkdir -p /tmp/cimon_github
 cd /tmp/cimon_github
 if [[ ! $CIMON_BRANCH ]]; then
-    CIMON_BANCH="master"
+    CIMON_BRANCH="master"
 fi
 git clone https://github.com/SchweizerischeBundesbahnen/cimon_setup.git -b $CIMON_BRANCH
 
