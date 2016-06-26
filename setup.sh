@@ -25,7 +25,7 @@ echo "$(date) Upgrading and installing packages..."
 # Rasberry vorbereiten
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y update
 CheckReturncode
-sudo DEBIAN_FRONTEND=noninteractive apt-get -y safe-upgrade
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
 CheckReturncode
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y autoremove
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y install python3.4-dev
@@ -61,8 +61,14 @@ echo "$(date) Sispmctl installed"
 
 echo "$(date) Installing cimon controller..."
 # Cimon Controller Scripts
-bash $setupdir/autoupdate/install_controller.sh
+bash $setupdir/controller/install_controller.sh
 CheckReturncode
 echo "$(date) Cimon controller installed"
+
+echo "$(date) Installing autoupdate..."
+# Cimon Controller Scripts
+bash $setupdir/autoupdate/install_autoupdate.sh
+CheckReturncode
+echo "$(date) Autoupdate installed"
 
 echo "$(date) Setup terminated OK"

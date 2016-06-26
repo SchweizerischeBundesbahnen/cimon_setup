@@ -4,9 +4,10 @@
 setupdir=$(dirname $(readlink -f $0))
 
 CheckReturncode() {
-    if [[ $? -ne 0 ]]; then
+    RC=$?
+    if [[ $RC -ne 0 ]]; then
         echo "Update terminated in ERROR"
-        exit $?
+        exit $RC
     fi
 }
 echo "$(date) Update if required..."
@@ -14,7 +15,7 @@ echo "$(date) Update if required..."
 # upgrade packages
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y update
 CheckReturncode
-sudo DEBIAN_FRONTEND=noninteractive apt-get -y safe-upgrade
+sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade
 CheckReturncode
 
 # update_config the controllerscripts

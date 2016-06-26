@@ -10,7 +10,6 @@ sudo pip3 install pyaes
 # start-stopscript installieren
 sudo mkdir -p /var/log/cimon
 sudo chmod a+rwx /var/log/cimon
-chmod a+rwx /var/log/cimon
 sudo cp $setupdir/init.d/cimon.sh /etc/init.d
 sudo chmod a+x /etc/init.d/cimon.sh
 sudo update-rc.d cimon.sh defaults

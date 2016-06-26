@@ -2,10 +2,11 @@
 # Setup everything from an usb stick packed by pack_usb_stick
 
 CheckReturncode() {
-    if [[ $? -ne 0 ]]; then
+    RC=$?
+    if [[ $RC -ne 0 ]]; then
         echo "$(date) Setup terminated in ERROR"
         popd
-        exit $?
+        exit $RC
     fi
 }
 
