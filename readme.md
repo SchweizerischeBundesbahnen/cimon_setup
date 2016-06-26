@@ -25,8 +25,8 @@ Setup the cimon device, start/stop scripts, auto update and so on. Tested on Ras
     cd /media/pi/<usb_stick>
     bash ./start_setup_all.sh <hostname> <mydrive_user> <mydrive_password>
 
-    # alternatively, if you want to use another branch, for instance develop, begin with
-    export CIMON_BRANCH=develop
+    # alternatively, if you want to use another branch, for instance develop, set the file
+    echo "develop" > ~/cimon/cimon_branch
 
 ## Prerequisites
 * Setup Keyboard (Keyboard: "Menu->Preferences->Rasberry Pi Configuration") if required (default is UK)
@@ -53,15 +53,16 @@ Setup the cimon device, start/stop scripts, auto update and so on. Tested on Ras
     # per default use master branch
     git clone https://github.com/SchweizerischeBundesbahnen/cimon_setup.git -b master
 
-    # alternatively, if you want ot use another branch, for instance develop
-    export CIMON_BRANCH=develop
-    git clone https://github.com/SchweizerischeBundesbahnen/cimon_setup.git -b $CIMON_BRANCH 
+    # alternatively, if you want ot use another branch, for instance develop, start with
+    git clone https://github.com/SchweizerischeBundesbahnen/cimon_setup.git -b develop
 
 ## set_hostname.sh: Set a meaningfull hostname
 Per default all raspberries have the same hostname. Set something usefull.
 
     cd /tmp/cimon_github/cimon_setup
     ./set_hostname.sh <hostname> 
+
+you have to reboot after using this script
 
 ## setup.sh: Setup raspberry and install controller, drivers and chromium
     
