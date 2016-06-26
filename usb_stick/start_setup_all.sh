@@ -11,12 +11,12 @@ CheckReturncode() {
 
 pushd .
 
-USAGE="Usage: -h <hostname> [-m] [-u <mydrive_user> -p <mydrive_password>] [-b branch] [-f] [-h]"
+USAGE="Usage: -n <hostname> [-m] [-u <mydrive_user> -p <mydrive_password>] [-b branch] [-f] [-h]"
 MYDRIVE='false'
 FREESBB='false'
 BRANCH="master"
 
-while getopts ":n:mu:p:b:f" flag; do
+while getopts ":n:mu:p:b:fh" flag; do
   case "${flag}" in
     n) NAME="${OPTARG}" ;;
     m) MYDRIVE='true' ;;
@@ -50,9 +50,8 @@ if [[ "$MYDRIVE" == "true" && ( ! $MYDRIVE_USER || ! $MYDRIVE_PASSWORD ) ]]; the
     exit 44
 fi
 
-exit 0
-
 usbstick=$(dirname $(readlink -f $0))
+echo "Starting Setup from $usbstick ..."
 
 wget -q -O- http://www.search.ch >> /dev/null
 if [[ $? -ne 0 && "$FREESBB" == "true" ]]; then

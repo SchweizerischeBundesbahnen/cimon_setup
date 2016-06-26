@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # configure the free sbb wlan access
-setupdir=$(dirname $(readlink -f $0))
+setupdir=$(dirname $(readlink -f $0))/freesbb
 #
 #
 # free sbb wlan auto connect (use wpa supplicant in order to allow reconnect)
@@ -16,7 +16,7 @@ sudo service networking restart
 sudo mkdir -p /opt/cimon 2> /dev/null
 sudo chmod a+rwx /opt/cimon 2> /dev/null
 mkdir -p /opt/cimon/freesbb
-cp $setupdir/freesbb/src/*.py /opt/cimon/freesbb/
+cp $setupdir/src/*.py /opt/cimon/freesbb/
 sudo cp $setupdir/cron.d/freesbb /etc/cron.d/freesbb
 sudo chmod g-x,o-x /etc/cron.d/freesbb
 #

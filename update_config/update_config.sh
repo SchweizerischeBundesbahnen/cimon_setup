@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 # cimon, SBB, FSe 2016
 # update_config the remote configuration
+
 mount /mnt/mydrive 2> /dev/null
 if [[ ! -d "/mnt/mydrive/config" ]]; then
     echo "Could not mount mydrive or config dir on mydrive not found"
     exit 42
 fi
+
 UpdateIfChanged() {
     REMOTE=$1
     LOCAL=$2
