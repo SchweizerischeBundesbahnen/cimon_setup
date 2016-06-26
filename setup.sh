@@ -14,35 +14,55 @@ CheckReturncode() {
         exit $?
     fi
 }
+
 echo "$(date) Starting setup..."
 setupdir=$(dirname $(readlink -f $0))
 # make sure we are connected before continuing...
 wget -q -O- http://www.search.ch >> /dev/null
 CheckReturncode
+
+echo "$(date) Upgrading and installing packages..."
 # Rasberry vorbereiten
-sudo apt-get -y update
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y update
 CheckReturncode
-sudo apt-get -y safe-upgrade
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y safe-upgrade
 CheckReturncode
-sudo apt-get -y autoremove
-sudo apt-get -y install python3.4-dev
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y autoremove
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y install python3.4-dev
 CheckReturncode
-sudo apt-get -y install dos2unix
-sudo apt-get -y install raspi-config
-# scripts aufrufen
-# Clewarecontrol - Steuerung USB Ampel
-bash $setupdir/controller/install_clewarecontrol.sh
-CheckReturncode
-# Sispmctl - Steuerung Energenie Steckdosenleiste
-bash $setupdir/controller/install_sispmctl.sh
-CheckReturncode
-# Chromium Browser
-bash $setupdir/chromium/install_chromium.sh
-CheckReturncode
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y install dos2unix
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y install raspi-config
+echo "$(date) Packages upgraded and installed"
+
+echo "$(date) Setting timezone..."
 # set timezone
 sudo sh -c 'echo "Europe/Zurich" > /etc/timezone'
 sudo dpkg-reconfigure -f noninteractive tzdata
+echo "$(date) Timezone set to Europe/Zurich"
+
+echo "$(date) Installing chromium..."
+# Chromium Browser
+bash $setupdir/chromium/install_chromium.sh
+CheckReturncode
+echo "$(date) Sispmctl installed"
+
+# scripts aufrufen
+# Clewarecontrol - Steuerung USB Ampel
+echo "$(date) Installing clewarecontrol..."
+bash $setupdir/controller/install_clewarecontrol.sh
+CheckReturncode
+echo "$(date) Clewarecontrol installed"
+
+echo "$(date) Installing sispmctl..."
+# Sispmctl - Steuerung Energenie Steckdosenleiste
+bash $setupdir/controller/install_sispmctl.sh
+CheckReturncode
+echo "$(date) Sispmctl installed"
+
+echo "$(date) Installing cimon controller..."
 # Cimon Controller Scripts
 bash $setupdir/autoupdate/install_controller.sh
 CheckReturncode
+echo "$(date) Cimon controller installed"
+
 echo "$(date) Setup terminated OK"

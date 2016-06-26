@@ -5,9 +5,9 @@ if [[ ! $1 || ! $2 ]]; then
     exit 7
 fi
 # install and configure davfs2
-sudo apt-get -y install davfs2
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y install davfs2
 echo "davfs2 davfs2/suid_file boolean true" | sudo debconf-set-selections
-sudo dpkg-reconfigure -f noninteractive davfs2
+sudo dpkg-reconfigure -fnoninteractive davfs2
 sudo usermod -aG davfs2 pi
 # need to "login" for the user to be added to group
 sudo su $USER
@@ -20,4 +20,4 @@ sudo mkdir -p /mnt/mydrive
 sudo bash -c "echo -e '\n#configuration for sbb cimon mydrive, FSe 2016\nhttps://webdav.mydrive.ch /mnt/mydrive davfs noauto,defaults,user,rw\n' >> /etc/fstab"
 # check if it works
 mount /mnt/mydrive
-umount /mnt/mydrive 2> /dev/null
+umount /mnt/mydrive > /dev/null 2>&1

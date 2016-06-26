@@ -36,10 +36,6 @@ echo "Mydrive: $MYDRIVE"
 echo "Mydrive user: $MYDRIVE_USER"
 echo "Mydrive password: $MYDRIVE_PASSWORD"
 
-if [[ "$FREESBB" == "true" ]]; then
-    echo "freesbb"
-fi
-
 if [[ ! $NAME ]]; then
     echo "Missing parameter -n <hostname>, usage: $USAGE"
     exit 43

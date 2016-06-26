@@ -10,6 +10,13 @@ CheckReturncode() {
     fi
 }
 echo "$(date) Update if required..."
+
+# upgrade packages
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y update
+CheckReturncode
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y safe-upgrade
+CheckReturncode
+
 # update_config the controllerscripts
 bash $setupdir/controller/update_controller.sh
 CheckReturncode
