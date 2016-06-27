@@ -7,6 +7,7 @@ if [[ ! -d "/mnt/mydrive/config" ]]; then
     echo "Could not mount mydrive or config dir on mydrive not found"
     exit 42
 fi
+mydir=$(dirname $(readlink -f $0))
 
 UpdateIfChanged() {
     REMOTE=$1
@@ -35,6 +36,9 @@ for REMOTE_PLUGIN in /mnt/mydrive/config/$(hostname)/plugins/*.py; do
         RESTART=1
     fi
 done
+
+# write the ip and mac address onto the mydrive
+bash $mydir/dump_addresses.sh /mnt/mydrive/config/$(hostname) > /dev/null 2>&1
 
 # if something was changed restart
 if [[ $RESTART -eq 1 ]]; then
