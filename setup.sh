@@ -10,9 +10,10 @@
 # Tastatur und Uhrzeit einstellen (Tastatureinstellung via "Menu->Preferences->Rasberry Pi Configuration" war nach Restart weg, ist ev. mittlerweile gefixed..., Alternative "sudo rasbi-config")
 #
 CheckReturncode() {
-    if [[ $? -ne 0 ]]; then
+    RC=$?
+    if [[ $RC -ne 0 ]]; then
         echo "$(date) Setup terminated in ERROR"
-        exit $?
+        exit $RC
     fi
 }
 
@@ -32,13 +33,16 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get -y autoremove
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y install python3.4-dev
 CheckReturncode
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y install dos2unix
+CheckReturncode
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y install raspi-config
+CheckReturncode
 echo "$(date) Packages upgraded and installed"
 
 echo "$(date) Setting timezone..."
 # set timezone
 sudo sh -c 'echo "Europe/Zurich" > /etc/timezone'
 sudo dpkg-reconfigure -f noninteractive tzdata
+CheckReturncode
 echo "$(date) Timezone set to Europe/Zurich"
 
 echo "$(date) Installing chromium..."
