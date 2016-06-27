@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# cimon, SBB, FSe 2016
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # update_config the remote configuration
 
 mount /mnt/mydrive 2> /dev/null

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# cimon, SBB, FSe 2016
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # dump mac and ip address
 
 if [[ ! -d $1 ]]; then

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # update_config cimon, do not update_config configuration
 
 setupdir=$(dirname $(readlink -f $0))

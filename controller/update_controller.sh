@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 
 setupdir=$(dirname $(readlink -f $0))
 

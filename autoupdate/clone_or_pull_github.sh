@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 WORKSPACE=$1
 REPO=$2
 if [[ -f ~/cimon/cimon_branch ]]; then

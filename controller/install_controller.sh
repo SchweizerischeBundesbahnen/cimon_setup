@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 ## Cimon controller scripts installieren
 setupdir=$(dirname $(readlink -f $0))
 # Vorrausetzung: Python module

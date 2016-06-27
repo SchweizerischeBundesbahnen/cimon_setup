@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # Energenie Steckdose setup
 # siehe http://sispmctl.sourceforge.net/
 # https://www.sweetpi.de/blog/224/usb-steckdosenleisten-mit-dem-raspberry-pi-schalten

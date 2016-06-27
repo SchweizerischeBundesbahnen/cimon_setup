@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # install the update_config scripts
 setupdir=$(dirname $(readlink -f $0))
 sudo mkdir -p /opt/cimon > /dev/null 2>&1

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # this is the only script that can not be distributed using the update_config mechanism...
 # it would be like muenchhausen
 scriptdir=$(dirname $(readlink -f $0))

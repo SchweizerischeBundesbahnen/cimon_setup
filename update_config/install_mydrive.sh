@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # setup the cloud drive mydrive via webdav for remote configuration
 if [[ ! $1 || ! $2 ]]; then
     echo "2 parameters required: mydrive username and password"

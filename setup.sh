@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # Setup the Rasberry and the scripts
 #
 # Getestet für Rasberry Pi 2 und 3, allerdings nicht in einem und mit Try-and-Error.
 # Vorraussetzung: Rassbian (Debian Jessy) bereits installiert, am besten SD-Karte vorinstalliert kaufen oder dd unter Linux bzw. Win32DiskImager verwenden
 # und das Gerät ist an einem Netz (nicht SBB!) angehängt
 #
-# Cimon GIT Repository clonen (ssh://git@code.sbb.ch:7999/kd_bm/cimon.git, https://u206123@code.sbb.ch/scm/kd_bm/cimon.git) auf einen USB Stick kopieren
+# Cimon GIT Repository clonen (ssh://git@code.sbb.ch:7999/kd_bm/cimon.git, https://florianseidl@code.sbb.ch/scm/kd_bm/cimon.git) auf einen USB Stick kopieren
 # Tastatur und Uhrzeit einstellen (Tastatureinstellung via "Menu->Preferences->Rasberry Pi Configuration" war nach Restart weg, ist ev. mittlerweile gefixed..., Alternative "sudo rasbi-config")
 #
 CheckReturncode() {

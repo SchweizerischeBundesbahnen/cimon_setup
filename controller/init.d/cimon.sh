@@ -1,5 +1,7 @@
 #!/bin/sh
-# cimon, FSe 2016: Start/stop/restart cimon controller
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
+# Cimon florianseidl 2015
+# Start/stop/restart cimon controller
 
 set -e
 

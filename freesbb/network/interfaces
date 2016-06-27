@@ -1,4 +1,6 @@
-# cimon, FSe 2016: Support freesbb autoconnect and reconnect via wpa-roam
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
+#
+# Cimon: Support freesbb autoconnect and reconnect via wpa-roam
 #
 # interfaces(5) file used by ifup(8) and ifdown(8)
 

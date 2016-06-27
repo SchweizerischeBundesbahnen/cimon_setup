@@ -1,6 +1,7 @@
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # Python 3.4
-__author__ = 'u206123'
+# Cimon
+__author__ = 'florianseidl'
 
 # accept the free sbb accept page ("Gratis ins Internet") if redirected to it
 # simple script that requests search.ch and checks if there is a redirect to freewlan.sbb.ch

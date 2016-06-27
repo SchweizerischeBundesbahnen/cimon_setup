@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Set the hostname
-# stolen from https://wiki.debian.org/HowTo/ChangeHostname
+# copied from https://wiki.debian.org/HowTo/ChangeHostname
 usage() {
    echo "usage : $0 <new hostname>"
    exit 1

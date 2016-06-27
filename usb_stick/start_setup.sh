@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # Setup everything from an usb stick packed by pack_usb_stick
 
 CheckReturncode() {

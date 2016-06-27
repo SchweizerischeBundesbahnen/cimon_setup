@@ -1,3 +1,4 @@
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # cimon, SBB, FSe 2016
 # all 5 minutes start cimon controller if not running
 */5 * * * * root service cimon start > /dev/null 2>&1

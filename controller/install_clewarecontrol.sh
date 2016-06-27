@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 ## Clewarecontrol installieren
 # https://www.vanheusden.com/clewarecontrol/
 setupdir=$(dirname $(readlink -f $0))
