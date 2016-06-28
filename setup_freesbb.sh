@@ -32,11 +32,7 @@ echo "$(date) Freesbb script and chronjob installed"
 echo "$(date) Running the freesbb script..."
 # try connect to freesbb
 python3 /opt/cimon/freesbb/freesbb.py > /dev/null
-if [[ $? -ne 0 ]]; then
-    echo "$(date) Run freesbb script termninated in ERROR"
-    exit 33
-fi
-echo "$(date) Freesbb script run"
+echo "$(date) Freesbb script run, result is $?"
 
 echo "$(date) Setup terminated OK."
 # check it was installed

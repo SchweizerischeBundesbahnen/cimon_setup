@@ -11,7 +11,7 @@ CheckReturncode() {
 }
 
 if [[ ! $1 || ! $2 ]]; then
-    echo "2 paramters required: mydrive user and password, 1 parameter optional: hostname"
+    echo "2 paramters required: mydrive user and password"
     exit 99
 fi
 
@@ -25,7 +25,7 @@ CheckReturncode
 echo "$(date) Mydrive installed"
 
 echo "$(date) Install update config..."
-bash $SETUPDIR/update_config/install_update_config.sh $3
+bash $SETUPDIR/update_config/install_update_config.sh
 CheckReturncode
 echo "$(date) Update config installed"
 

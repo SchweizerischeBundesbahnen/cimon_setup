@@ -9,9 +9,8 @@ fi
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y install davfs2
 echo "davfs2 davfs2/suid_file boolean true" | sudo debconf-set-selections
 sudo dpkg-reconfigure -f noninteractive davfs2
+# does only work after restart...
 sudo usermod -aG davfs2 pi
-# need to add group extra to be in current session
-newgrp davfs2
 # configure mydrive
 mkdir -p ~/.davfs2
 echo -e "\n#configuration for sbb cimon mydrive, FSe 2016\nask_auth 0\nuse_locks 0" > ~/.davfs2/davfs2.conf
@@ -19,6 +18,3 @@ echo -e "#configuration for sbb cimon mydrive, FSe 2016\nhttps://webdav.mydrive.
 chmod 600 ~/.davfs2/secrets
 sudo mkdir -p /mnt/mydrive
 sudo bash -c "echo -e '\n#configuration for sbb cimon mydrive, FSe 2016\nhttps://webdav.mydrive.ch /mnt/mydrive davfs noauto,defaults,user,rw\n' >> /etc/fstab"
-# check if it works
-mount /mnt/mydrive
-umount /mnt/mydrive > /dev/null 2>&1

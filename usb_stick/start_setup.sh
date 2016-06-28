@@ -85,13 +85,6 @@ echo "Setup..."
 bash $DIR/setup.sh
 CheckReturncode
 
-# free sbb update config
-if [[ "$MYDRIVE" == "true"  ]]; then
-    echo "Setup update config via mydrive..."
-    bash $DIR/setup_update_config.sh $MYDRIVE_USER $MYDRIVE_PASSWORD $NAME
-    CheckReturncode
-fi
-
 # free sbb if not allready installed
 if [[ "$FREESBB" == "true" && ! -d /opt/cimon/freesbb ]]; then
     echo "Setup free sbb..."
@@ -99,8 +92,15 @@ if [[ "$FREESBB" == "true" && ! -d /opt/cimon/freesbb ]]; then
     CheckReturncode
 fi
 
+# update via mydrive
+if [[ "$MYDRIVE" == "true"  ]]; then
+    echo "Setup update config via mydrive..."
+    bash $DIR/setup_update_config.sh $MYDRIVE_USER $MYDRIVE_PASSWORD
+    CheckReturncode
+fi
+
 echo "Set hostname..."
-sudo bash $DIR/set_hostname.sh $1 >> /dev/null
+sudo bash $DIR/set_hostname.sh $NAME >> /dev/null
 CheckReturncode
 
 popd
