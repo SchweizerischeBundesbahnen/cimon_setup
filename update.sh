@@ -2,7 +2,7 @@
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # update_config cimon, do not update_config configuration
 
-setupdir=$(dirname $(readlink -f $0))
+SETUPDIR=$(dirname $(readlink -f $0))
 
 CheckReturncode() {
     RC=$?
@@ -20,7 +20,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade
 CheckReturncode
 
 # update_config the controllerscripts
-bash $setupdir/controller/update_controller.sh
+bash $SETUPDIR/controller/update_controller.sh
 CheckReturncode
 
 echo "$(date) Update terminated OK"

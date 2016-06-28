@@ -3,7 +3,7 @@
 # Energenie Steckdose setup
 # siehe http://sispmctl.sourceforge.net/
 # https://www.sweetpi.de/blog/224/usb-steckdosenleisten-mit-dem-raspberry-pi-schalten
-setupdir=$(dirname $(readlink -f $0))
+SETUPDIR=$(dirname $(readlink -f $0))
 pushd .
 # Vorraussetzung: libusb-dev
 sudo apt-get install libusb-dev
@@ -21,7 +21,7 @@ sudo make install
 # refresh the libraries
 sudo ldconfig
 # USB Device als User
-sudo cp $setupdir/rules.d/91-energenie-steckdose.rules /etc/udev/rules.d/
+sudo cp $SETUPDIR/rules.d/91-energenie-steckdose.rules /etc/udev/rules.d/
 # done
 popd
 which sispmctl

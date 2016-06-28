@@ -8,10 +8,10 @@ fi
 # install and configure davfs2
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y install davfs2
 echo "davfs2 davfs2/suid_file boolean true" | sudo debconf-set-selections
-sudo dpkg-reconfigure -fnoninteractive davfs2
+sudo dpkg-reconfigure -f noninteractive davfs2
 sudo usermod -aG davfs2 pi
-# need to "login" for the user to be added to group
-sudo su $USER
+# need to add group extra to be in current session
+newgrp davfs2
 # configure mydrive
 mkdir -p ~/.davfs2
 echo -e "\n#configuration for sbb cimon mydrive, FSe 2016\nask_auth 0\nuse_locks 0" > ~/.davfs2/davfs2.conf

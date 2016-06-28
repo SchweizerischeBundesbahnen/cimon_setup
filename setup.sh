@@ -18,7 +18,7 @@ CheckReturncode() {
 }
 
 echo "$(date) Starting setup..."
-setupdir=$(dirname $(readlink -f $0))
+SETUPDIR=$(dirname $(readlink -f $0))
 # make sure we are connected before continuing...
 wget -q -O- http://www.search.ch >> /dev/null
 CheckReturncode
@@ -47,32 +47,32 @@ echo "$(date) Timezone set to Europe/Zurich"
 
 echo "$(date) Installing chromium..."
 # Chromium Browser
-bash $setupdir/chromium/install_chromium.sh
+bash $SETUPDIR/chromium/install_chromium.sh
 CheckReturncode
 echo "$(date) Sispmctl installed"
 
 # scripts aufrufen
 # Clewarecontrol - Steuerung USB Ampel
 echo "$(date) Installing clewarecontrol..."
-bash $setupdir/controller/install_clewarecontrol.sh
+bash $SETUPDIR/controller/install_clewarecontrol.sh
 CheckReturncode
 echo "$(date) Clewarecontrol installed"
 
 echo "$(date) Installing sispmctl..."
 # Sispmctl - Steuerung Energenie Steckdosenleiste
-bash $setupdir/controller/install_sispmctl.sh
+bash $SETUPDIR/controller/install_sispmctl.sh
 CheckReturncode
 echo "$(date) Sispmctl installed"
 
 echo "$(date) Installing cimon controller..."
 # Cimon Controller Scripts
-bash $setupdir/controller/install_controller.sh
+bash $SETUPDIR/controller/install_controller.sh
 CheckReturncode
 echo "$(date) Cimon controller installed"
 
 echo "$(date) Installing autoupdate..."
 # Cimon Controller Scripts
-bash $setupdir/autoupdate/install_autoupdate.sh
+bash $SETUPDIR/autoupdate/install_autoupdate.sh
 CheckReturncode
 echo "$(date) Autoupdate installed"
 

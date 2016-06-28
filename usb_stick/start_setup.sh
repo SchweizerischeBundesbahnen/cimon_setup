@@ -48,21 +48,27 @@ if [[ "$MYDRIVE" == "true" && ( ! $MYDRIVE_USER || ! $MYDRIVE_PASSWORD ) ]]; the
     exit 44
 fi
 
-usbstick=$(dirname $(readlink -f $0))
-echo "Starting Setup from $usbstick ..."
+USBSTICK=$(dirname $(readlink -f $0))
+echo "Starting Setup from $USBSTICK ..."
 
 wget -q -O- http://www.search.ch >> /dev/null
 if [[ $? -ne 0 && "$FREESBB" == "true" ]]; then
     echo "Setup free sbb in order to establish network connection..."
-    bash $usbstick/setup_freesbb.sh
+    bash $USBSTICK/setup_freesbb.sh
     CheckReturncode
     read -n1 -rsp $'Wait for the network connection to be established and press any key to continue if its OK or Ctrl+C to exit...\n'
 fi
 
+wget -q -O- http://www.search.ch >> /dev/null
+if [[ $? -ne 0 ]]; then
+    echo "No network access, start setup terminated in ERROR"
+    exit 11
+fi
+
 mkdir -p ~/cimon
-if [[ -f $usbstick/key.bin ]]; then
+if [[ -f $USBSTICK/key.bin ]]; then
     echo "Copying key.bin..."
-    cp $usbstick/key.bin ~/cimon/key.bin
+    cp $USBSTICK/key.bin ~/cimon/key.bin
 fi
 
 mkdir -p /tmp/cimon_github

@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # configure the free sbb wlan access
-setupdir=$(dirname $(readlink -f $0))/freesbb
+SETUPDIR=$(dirname $(readlink -f $0))/freesbb
 
 echo "$(date) Starting Setup freesbb..."
 
 # free sbb wlan auto connect (use wpa supplicant in order to allow reconnect)
 echo "$(date) Installing network config files..."
-sudo cp $setupdir/network/interfaces /etc/network/interfaces
-sudo cp $setupdir/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
+sudo cp $SETUPDIR/network/interfaces /etc/network/interfaces
+sudo cp $SETUPDIR/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
 echo "$(date) Network config files installed"
 
 echo "$(date) Restarting wlan0 and service networking..."
@@ -24,8 +24,8 @@ echo "$(date) Installing the freesbb script and chronjob..."
 sudo mkdir -p /opt/cimon 2> /dev/null
 sudo chmod a+rwx /opt/cimon 2> /dev/null
 mkdir -p /opt/cimon/freesbb
-cp $setupdir/src/*.py /opt/cimon/freesbb/
-sudo cp $setupdir/cron.d/freesbb /etc/cron.d/freesbb
+cp $SETUPDIR/src/*.py /opt/cimon/freesbb/
+sudo cp $SETUPDIR/cron.d/freesbb /etc/cron.d/freesbb
 sudo chmod g-x,o-x /etc/cron.d/freesbb
 echo "$(date) Freesbb script and chronjob installed"
 
