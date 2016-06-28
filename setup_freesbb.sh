@@ -29,7 +29,8 @@ sudo cp $SETUPDIR/cron.d/freesbb /etc/cron.d/freesbb
 sudo chmod g-x,o-x /etc/cron.d/freesbb
 echo "$(date) Freesbb script and chronjob installed"
 
-echo "$(date) Running the freesbb script..."
+echo "$(date) Running the freesbb script after 10 seconds rest..."
+sleep 10
 # try connect to freesbb
 python3 /opt/cimon/freesbb/freesbb.py > /dev/null
 echo "$(date) Freesbb script run, result is $?"

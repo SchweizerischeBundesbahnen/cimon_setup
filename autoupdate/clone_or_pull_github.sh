@@ -12,10 +12,12 @@ pushd .
 
 # get the newest repo version
 if [ ! -d $WORKSPACE/$REPO ]; then
+    echo "$repo was not checked out, cloning into $WORKSPACE"
     mkdir -p $WORKSPACE
     cd $WORKSPACE
     git clone http://github.com/SchweizerischeBundesbahnen/$REPO.git -b $BRANCH
 else
+    echo "$repo is checked out in $WORKSPACE/$REPO, pulling"
     cd $WORKSPACE/$REPO
     git pull
 fi
