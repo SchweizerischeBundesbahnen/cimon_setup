@@ -19,6 +19,10 @@ CheckReturncode
 sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade
 CheckReturncode
 
+# update the update config script
+bash $SETUPDIR/update_config/update_update_config.sh
+CheckReturncode
+
 # update_config the controllerscripts
 bash $SETUPDIR/controller/update_controller.sh
 CheckReturncode

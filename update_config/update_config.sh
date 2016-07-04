@@ -26,7 +26,7 @@ MYDIR=$(dirname $(readlink -f $0))
 UpdateIfChanged() {
     REMOTE=$1
     LOCAL=$2
-    if [[ $REMOTE -nt $LOCAL && $(cmp --silent $REMOTE $LOCAL) != 0 ]]; then
+    if [[ $(cmp --silent $REMOTE $LOCAL) != 0 ]]; then
        cp -f $REMOTE $LOCAL 2> /dev/null
        echo "$(date) updated $LOCAL"
        return 1
@@ -57,7 +57,7 @@ bash $MYDIR/dump_addresses.sh /mnt/mydrive/config/$HN > /dev/null 2>&1
 # if something was changed restart
 if [[ $RESTART -eq 1 ]]; then
    sudo service cimon restart 2> /dev/null
-   touch /mnt/mydrive/config/$HN/last_update 2> /dev/null
+   echo $(date) > /mnt/mydrive/config/$HN/last_update 2> /dev/null
    echo "$(date) restarted service"
 fi
 umount /mnt/mydrive > /dev/null 2>&1
