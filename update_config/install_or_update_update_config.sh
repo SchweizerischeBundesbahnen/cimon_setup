@@ -9,13 +9,13 @@ cd $SETUPDIR
 
 git rev-parse --is-inside-work-tree 2> /dev/null
 if [[ $? -eq 0 ]]; then
-    GIT= "true"
+    GIT="true"
 fi
 
 if [[ $GIT ]]; then
-   REV = $(git rev-parse HEAD)
+   REV=$(git rev-parse HEAD)
 else
-   REV = "unknown-version"
+   REV="unknown-version"
 fi
 # if no version file (for instance new installation) or version has changed
 if [[ ! -f /opt/cimon/update_config/version || $(cat /opt/cimon/update_config/version) != $REV ]]; then

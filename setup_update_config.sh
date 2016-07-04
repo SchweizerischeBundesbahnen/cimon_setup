@@ -25,7 +25,7 @@ CheckReturncode
 echo "$(date) Mydrive installed"
 
 echo "$(date) Install update config..."
-bash $SETUPDIR/update_config/install_update_config.sh
+bash $SETUPDIR/update_config/install_or_update_update_config.sh
 CheckReturncode
 echo "$(date) Update config installed"
 
