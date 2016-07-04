@@ -3,6 +3,8 @@
 
 SETUPDIR=$(dirname $(readlink -f $0))
 
+pushd .
+
 # checkout newest version from GIT
 bash $SETUPDIR/../autoupdate/clone_or_pull_github.sh /tmp/cimon_github cimon_controller
 
@@ -25,3 +27,4 @@ else
     echo "$(date) no new version of cimon_controller found."
 fi
 # else, nothing to do (current version allready installed)
+popd
