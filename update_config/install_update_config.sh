@@ -11,8 +11,11 @@ chmod a+rx /opt/cimon/update_config/*.sh
 sudo cp -f $SETUPDIR/cron.d/update_config /etc/cron.d/update_config
 sudo chmod g-x,o-x /etc/cron.d/update_config
 git rev-parse --is-inside-work-tree 2> /dev/null
+pushd .
+cd $SETUPDIR
 if [[ $? -eq 0 ]]; then
     git rev-parse HEAD > /opt/cimon/update_config/version
 else
     rm -f /opt/cimon/update_config/version 2> /dev/null
 fi
+popd

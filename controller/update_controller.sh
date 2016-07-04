@@ -21,5 +21,7 @@ if [[ ! -f /opt/cimon/controller/version || $(cat /opt/cimon/controller/version)
     echo "$(date) installed new version $(git rev-parse HEAD) to /opt/cimon/controller"
     sudo service cimon restart
     echo "$(date) restarted service"
+else
+    echo "$(date) no new version of cimon_controller found."
 fi
 # else, nothing to do (current version allready installed)
