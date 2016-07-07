@@ -19,26 +19,33 @@ if [[ ! -f /mnt/mydrive/config/$HN/cimon.yaml && -f /mnt/mydrive/config/template
     cp -n /mnt/mydrive/config/templates/cimon.yaml /mnt/mydrive/config/$HN/cimon.yaml
 fi
 
+if [[ ! -d ~/cimon || ! -d ~/cimon/plugins ]]; then
+    mkdir -p ~/cimon 2> /dev/null
+    mkdir -p ~/cimon/plugins 2> /dev/null
+fi
+
 MYDIR=$(dirname $(readlink -f $0))
 
 # now start the actual update process
-
 UpdateIfChanged() {
     REMOTE=$1
     LOCAL=$2
-    if [[ $(cmp --silent $REMOTE $LOCAL) != 0 ]]; then
+    if [[ ! -f $REMOTE ]]; then
+        echo "$(date) $REMOTE not found"
+        return 0
+    fi
+    if [[ ! -f $LOCAL || $(cmp --silent $REMOTE $LOCAL) != 0 ]]; then
        cp -f $REMOTE $LOCAL 2> /dev/null
-       echo "$(date) updated $LOCAL"
+       if [[ $? -ne 0 ]]; then
+            echo "$(date) copy of $REMOTE to $LOCAL failed"
+            exit 11
+       fi
        return 1
     fi
     return 0
 }
 
 # update_config and restart service only if remote files are newer and different
-
-mkdir -p ~/cimon 2> /dev/null
-mkdir -p ~/cimon/plugins 2> /dev/null
-
 # first the config file
 UpdateIfChanged /mnt/mydrive/config/$HN/cimon.yaml ~/cimon/cimon.yaml
 RESTART=$?
@@ -60,4 +67,5 @@ if [[ $RESTART -eq 1 ]]; then
    echo $(date) > /mnt/mydrive/config/$HN/last_update 2> /dev/null
    echo "$(date) restarted service"
 fi
+# end - unmount
 umount /mnt/mydrive > /dev/null 2>&1
