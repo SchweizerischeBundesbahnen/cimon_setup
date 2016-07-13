@@ -16,7 +16,7 @@ echo "$(date) Update if required..."
 # upgrade packages
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y update
 CheckReturncode
-sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
 CheckReturncode
 
 if [[ -d /opt/cimon/update_config ]]; then
