@@ -21,8 +21,8 @@ echo "$(date) Wlan0 and service networking restarted"
 
 echo "$(date) Installing the freesbb script and chronjob..."
 # script to click the accept (gratis ins internet) button
-sudo mkdir -p /opt/cimon 2> /dev/null
-sudo chmod a+rwx /opt/cimon 2> /dev/null
+sudo mkdir -p /opt/cimon  1>/dev/null 2>&1
+sudo chmod a+rwx /opt/cimon  1>/dev/null 2>&1
 mkdir -p /opt/cimon/freesbb
 cp $SETUPDIR/src/*.py /opt/cimon/freesbb/
 sudo cp $SETUPDIR/cron.d/freesbb /etc/cron.d/freesbb

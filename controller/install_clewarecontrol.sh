@@ -7,8 +7,8 @@ pushd .
 # Vorraussetzung: libhidapi-dev
 sudo apt-get -y install libhidapi-dev
 ### Clewarecontrol
-rm -rf /tmp/cimon_clewarecontrol 2> /dev/null
-mkdir /tmp/cimon_clewarecontrol 2> /dev/null
+rm -rf /tmp/cimon_clewarecontrol 1>/dev/null 2>&1
+mkdir /tmp/cimon_clewarecontrol 1>/dev/null 2>&1
 cd /tmp/cimon_clewarecontrol
 # Clewarecontrol herunterladen: https://www.vanheusden.com/clewarecontrol/#download
 wget --content-disposition 'https://www.vanheusden.com/clewarecontrol/files/clewarecontrol-4.1.tgz'

@@ -8,8 +8,8 @@ pushd .
 # Vorraussetzung: libusb-dev
 sudo apt-get install libusb-dev
 # download sispmclt
-rm -rf /tmp/cimon_sispmctl 2> /dev/null
-mkdir /tmp/cimon_sispmctl 2> /dev/null
+rm -rf /tmp/cimon_sispmctl  1>/dev/null 2>&1
+mkdir /tmp/cimon_sispmctl  1>/dev/null 2>&1
 cd /tmp/cimon_sispmctl
 wget --content-disposition 'https://sourceforge.net/projects/sispmctl/files/latest/download?source=typ_redirect'
 # make sispmclt

@@ -2,7 +2,7 @@
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # update_config the remote configuration
 
-mount /mnt/mydrive 2> /dev/null
+mount /mnt/mydrive  1>/dev/null 2>&1
 if [[ ! -d "/mnt/mydrive/config" ]]; then
     echo "Could not mount mydrive or config dir on mydrive not found"
     exit 42
@@ -20,8 +20,8 @@ if [[ ! -f /mnt/mydrive/config/$HN/cimon.yaml && -f /mnt/mydrive/config/template
 fi
 
 if [[ ! -d ~/cimon || ! -d ~/cimon/plugins ]]; then
-    mkdir -p ~/cimon 2> /dev/null
-    mkdir -p ~/cimon/plugins 2> /dev/null
+    mkdir -p ~/cimon 1>/dev/null 2>&1
+    mkdir -p ~/cimon/plugins 1>/dev/null 2>&1
 fi
 
 MYDIR=$(dirname $(readlink -f $0))
@@ -34,8 +34,10 @@ UpdateIfChanged() {
         echo "$(date) $REMOTE not found"
         return 0
     fi
-    if [[ ! -f $LOCAL || $(cmp --silent $REMOTE $LOCAL) != 0 ]]; then
-       cp -f $REMOTE $LOCAL 2> /dev/null
+    cmp --silent $REMOTE $LOCAL 2>&1 1>/dev/null
+    if [[ $? -ne 0 ]]; then
+       echo "$(date) Copying $REMOTE to $LOCAL"
+       cp -f $REMOTE $LOCAL 1>/dev/null 2>&1
        if [[ $? -ne 0 ]]; then
             echo "$(date) copy of $REMOTE to $LOCAL failed"
             exit 11
@@ -65,8 +67,8 @@ bash $MYDIR/dump_addresses.sh /mnt/mydrive/config/$HN > /dev/null 2>&1
 
 # if something was changed restart
 if [[ $RESTART -eq 1 ]]; then
-   sudo service cimon restart 2> /dev/null
-   echo $(date) > /mnt/mydrive/config/$HN/last_update 2> /dev/null
+   sudo service cimon restart  1>/dev/null 2>&1
+   echo $(date) > /mnt/mydrive/config/$HN/last_update  1>/dev/null 2>&1
    echo "$(date) restarted service"
 fi
 # end - unmount

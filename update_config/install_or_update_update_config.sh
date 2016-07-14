@@ -7,7 +7,7 @@ pushd .
 
 cd $SETUPDIR
 
-git rev-parse --is-inside-work-tree 2> /dev/null
+git rev-parse --is-inside-work-tree  1>/dev/null 2>&1
 if [[ $? -eq 0 ]]; then
     GIT="true"
 fi
@@ -31,7 +31,7 @@ if [[ ! -f /opt/cimon/update_config/version || $(cat /opt/cimon/update_config/ve
     if [[ $GIT ]]; then
         git rev-parse HEAD > /opt/cimon/update_config/version
     else
-        rm -f /opt/cimon/update_config/version 2> /dev/null
+        rm -f /opt/cimon/update_config/version  1>/dev/null 2>&1
     fi
 fi
 popd

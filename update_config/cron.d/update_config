@@ -2,3 +2,5 @@
 # cimon, SBB, FSe 2016
 # check config on mydrive in the cloud and update if newer
 */5 * * * * pi /opt/cimon/update_config/update_config.sh >> /var/log/cimon/update_config.log 2>&1
+# daily at 00:04 delete the davfs2 cache as it may get stale for some reason
+4 0 * * * pi umount /mnt/mydrive; rm -r /home/pi/.davfs2/cache/* > /dev/null 2>&1
