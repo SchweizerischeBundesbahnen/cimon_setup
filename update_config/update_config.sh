@@ -2,8 +2,15 @@
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # update_config the remote configuration
 
+# delete the cache as it may be stale, but make sure it is not mounted yet
+mountpoint /mnt/mydrive 1>/dev/null 2>&1
+if [[ $? -ne 0 ]]; then
+    rm -r /home/pi/.davfs2/cache/* > /dev/null 2>&1
+fi
 mount /mnt/mydrive  1>/dev/null 2>&1
-if [[ ! -d "/mnt/mydrive/config" ]]; then
+
+mountpoint /mnt/mydrive 1>/dev/null 2>&1
+if [[ $? -ne 0 || ! -d "/mnt/mydrive/config" ]]; then
     echo "Could not mount mydrive or config dir on mydrive not found"
     exit 42
 fi
