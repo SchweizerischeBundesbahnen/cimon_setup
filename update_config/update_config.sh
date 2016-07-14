@@ -75,7 +75,7 @@ bash $MYDIR/dump_addresses.sh /mnt/mydrive/config/$HN > /dev/null 2>&1
 # if something was changed restart
 if [[ $RESTART -eq 1 ]]; then
    sudo service cimon restart  1>/dev/null 2>&1
-   echo $(date) > /mnt/mydrive/config/$HN/last_update  1>/dev/null 2>&1
+   echo $(date) > /mnt/mydrive/config/$HN/last_update
    echo "$(date) restarted service"
 fi
 # end - unmount
