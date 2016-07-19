@@ -13,17 +13,17 @@ CheckReturncode() {
 
 pushd .
 
-USAGE="Usage: -n <hostname> [-m] [-u <mydrive_user> -p <mydrive_password>] [-b branch] [-f] [-h]"
-MYDRIVE='false'
+USAGE="Usage: -n <hostname> [-p <password>] [-g <github_url>] [-m <mydrive_user> -w <mydrive_password>] [-b branch] [-f] [-h]"
 FREESBB='false'
 BRANCH="master"
 
-while getopts ":n:mu:p:b:fh" flag; do
+while getopts ":n:p:g:m:w:fb:h" flag; do
   case "${flag}" in
     n) NAME="${OPTARG}" ;;
-    m) MYDRIVE='true' ;;
-    u) MYDRIVE_USER="${OPTARG}" ;;
-    p) MYDRIVE_PASSWORD="${OPTARG}" ;;
+    p) PASSWD="${OPTARG}" ;;
+    g) GITHUB_URL="${OPTARG}" ;;
+    m) MYDRIVE_USER="${OPTARG}" ;;
+    w) MYDRIVE_PASSWORD="${OPTARG}" ;;
     f) FREESBB='true' ;;
     b) BRANCH=${OPTARG} ;;
     h) echo "$USAGE"; exit 0 ;;
@@ -32,20 +32,26 @@ while getopts ":n:mu:p:b:fh" flag; do
 done
 
 echo "Hostname: $NAME"
+echo "Password: $PASSWD"
 echo "Branch: $BRANCH"
 echo "Freesbb: $FREESBB"
-echo "Mydrive: $MYDRIVE"
-echo "Mydrive user: $MYDRIVE_USER"
-echo "Mydrive password: $MYDRIVE_PASSWORD"
+echo "Update config via Github url: $GITHUB_URL"
+echo "Update config via Mydrive user: $MYDRIVE_USER"
+echo "Update config via Mydrive password: $MYDRIVE_PASSWORD"
 
 if [[ ! $NAME ]]; then
     echo "Missing parameter -n <hostname>, usage: $USAGE"
     exit 43
 fi
 
-if [[ "$MYDRIVE" == "true" && ( ! $MYDRIVE_USER || ! $MYDRIVE_PASSWORD ) ]]; then
-    echo "Paramterer mydrive -m set, but parameters -u <mydrive_user> and/or -p <mydrive_password> missing. Usage: $USAGE"
+if [[ $GITHUB_URL && $MYDRIVE_USER ]]; then
+    echo "You can not choose both -g github and -m mydrive for config update"
     exit 44
+fi
+
+if [[ $MYDRIVE_USER && ! $MYDRIVE_PASSWORD ]]; then
+    echo "Paramterer mydrive -m <mydrive_user> set, but parameter -w <mydrive_password> missing. Usage: $USAGE"
+    exit 45
 fi
 
 USBSTICK=$(dirname $(readlink -f $0))
@@ -74,7 +80,7 @@ fi
 mkdir -p /tmp/cimon_github
 cd /tmp/cimon_github
 
-echo "$BRANCH" > ~/cimon/git_branch
+echo "$BRANCH" > ~/cimon/.git_branch
 git clone https://github.com/SchweizerischeBundesbahnen/cimon_setup.git -b $BRANCH
 
 cd cimon_setup
@@ -92,14 +98,31 @@ if [[ "$FREESBB" == "true" && ! -d /opt/cimon/freesbb ]]; then
     CheckReturncode
 fi
 
-# update via mydrive
-if [[ "$MYDRIVE" == "true"  ]]; then
-    echo "Setup update config via mydrive..."
-    bash $DIR/setup_update_config.sh $MYDRIVE_USER $MYDRIVE_PASSWORD
+# update config via github
+if [[ $GITHUB_URL  ]]; then
+    echo "Setup update config via github..."
+    bash $DIR/setup_update_config.sh github $GITHUB_URL
     CheckReturncode
+else
+    # update config via mydrive
+    if [[ $MYDRIVE_USER  ]]; then
+        echo "Setup update config via mydrive..."
+        bash $DIR/setup_update_config.sh mydrive $MYDRIVE_USER $MYDRIVE_PASSWORD
+        CheckReturncode
+    fi
 fi
 
-echo "Set hostname..."
+if [[ $PASSWD ]]; then
+    echo "Chaning password..."
+    echo pi:$PASSWD | chpasswd
+    if [[ $? ]]; then
+        echo "Changed password"
+    else
+        echo "Failed to change password!"
+    fi
+fi
+
+echo "Setting hostname..."
 sudo bash $DIR/set_hostname.sh $NAME >> /dev/null
 CheckReturncode
 

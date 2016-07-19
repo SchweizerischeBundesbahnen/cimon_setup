@@ -34,49 +34,14 @@ fi
 MYDIR=$(dirname $(readlink -f $0))
 
 # now start the actual update process
-UpdateIfChanged() {
-    REMOTE=$1
-    LOCAL=$2
-    if [[ ! -f $REMOTE ]]; then
-        echo "$(date) $REMOTE not found"
-        return 0
-    fi
-    cmp --silent $REMOTE $LOCAL 2>&1 1>/dev/null
-    if [[ $? -ne 0 ]]; then
-       echo "$(date) Copying $REMOTE to $LOCAL"
-       cp -f $REMOTE $LOCAL 1>/dev/null 2>&1
-       if [[ $? -ne 0 ]]; then
-            echo "$(date) copy of $REMOTE to $LOCAL failed"
-            exit 11
-       fi
-       return 1
-    fi
-    return 0
-}
-
-# update_config and restart service only if remote files are newer and different
-# first the config file
-UpdateIfChanged /mnt/mydrive/config/$HN/cimon.yaml ~/cimon/cimon.yaml
-RESTART=$?
-
-# make sure the for loop works, else if nothing is found the search string is returned as such
-shopt -s nullglob
-# then the python plugin scripts
-for REMOTE_PLUGIN in /mnt/mydrive/config/$HN/plugins/*.py; do
-    UpdateIfChanged $REMOTE_PLUGIN ~/cimon/plugins/$(basename $REMOTE_PLUGIN)
-    if [[ $? -eq 1 ]]; then
-        RESTART=1
-    fi
-done
+$MYDIR/copy_restart_if_changed.sh /mnt/mydrive/config/$HN
+RESTARTED=$?
+if [[ $RESTARTED -eq 1 ]]; then
+   echo $(date) > /mnt/mydrive/config/$HN/last_update
+fi
 
 # write the ip and mac address onto the mydrive
 bash $MYDIR/dump_addresses.sh /mnt/mydrive/config/$HN > /dev/null 2>&1
 
-# if something was changed restart
-if [[ $RESTART -eq 1 ]]; then
-   sudo service cimon restart  1>/dev/null 2>&1
-   echo $(date) > /mnt/mydrive/config/$HN/last_update
-   echo "$(date) restarted service"
-fi
 # end - unmount
 umount /mnt/mydrive > /dev/null 2>&1
