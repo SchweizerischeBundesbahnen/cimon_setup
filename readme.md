@@ -96,14 +96,26 @@ The configuration for FreeSBB WLAN with a Python Script to handle autoconnect as
     cd /tmp/cimon_github/cimon_setup
     ./setup_freesbb.sh
 
-## setup_update_config.sh: Update the config from mydrive.ch
+## setup_update_config.sh: Update the config
+Prerequisite: you need to have set a meaningfull, unique hostname.
+
+### Update config via github
+Update the configuration via github.
+
+* Will create a branch config/<hostname> if it does not exist yet and geht the config from this branch.
+* Will write, add commit and push a file "address.txt" to the repo
+* Will move a tag "configured_<hostname>" whenever a configuration has been deployed
+
+    cd /tmp/cimon_github/cimon_setup
+    ./setup_update_config.sh github <url>
+
+### Update config via mydrive.ch
 Update the configuration from mydrive.ch (Read from mydrive.ch every 5 minutes and copy if changed). Will copy configuration and plugins from the folder config/<hostname> on the mydrive.
 
-Prerequisite: you need to have set a meaningfull, unique hostname. Requires 2 parametes: mydrive user and password
+Requires 2 parametes: mydrive user and password
 
-    # setup freesbb WLAN
     cd /tmp/cimon_github/cimon_setup
-    ./setup_update_config.sh <user> <password>
+    ./setup_update_config.sh mydrive <user> <password>
     
 Now you will have a folder config/<hostname> on your mydrive. If you have a config/templates directory, you will have the config.yaml from there copied to your directory.
 
