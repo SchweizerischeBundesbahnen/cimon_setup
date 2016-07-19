@@ -1,6 +1,7 @@
 @echo off
 REM Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 REM pack the memory stick with freesbb
+REM pack_usb_stick <keyfile_with_path> <setup_startscript_with_path>
 IF "%1"=="" GOTO PARAM
 IF NOT EXIST %1 GOTO FILE
 
@@ -12,9 +13,11 @@ mkdir %1\freesbb
 xcopy /S ..\freesbb %1\freesbb
 copy /Y ..\setup_freesbb.sh %1\
 
+IF "%2"=="" GOTO END
 IF NOT EXIST %2 GOTO END
 copy /Y %2 %1\
 
+IF "%3"=="" GOTO END
 IF NOT EXIST %3 GOTO END
 copy /Y %3 %1\
 
