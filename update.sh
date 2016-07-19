@@ -25,6 +25,12 @@ if [[ -d /opt/cimon/update_config ]]; then
     CheckReturncode
 fi
 
+if [[ -d /opt/cimon/web ]]; then
+    # update the webpage
+    bash $SETUPDIR/web/update_web.sh
+    CheckReturncode
+fi
+
 # update_config the controllerscripts
 bash $SETUPDIR/controller/update_controller.sh
 CheckReturncode

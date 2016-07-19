@@ -13,17 +13,19 @@ CheckReturncode() {
 
 pushd .
 
-USAGE="Usage: -n <hostname> [-p <password>] [-g <github_url>] [-m <mydrive_user> -w <mydrive_password>] [-b branch] [-f] [-h]"
+USAGE="Usage: -n <hostname> [-p <password>] [-g <github_url>] [-m <mydrive_user> -w <mydrive_password>] [-b branch] [-f] [-w] [-h]"
 FREESBB='false'
+WEB='false'
 BRANCH="master"
 
-while getopts ":n:p:g:m:w:fb:h" flag; do
+while getopts ":n:p:g:m:n:fwb:h" flag; do
   case "${flag}" in
     n) NAME="${OPTARG}" ;;
     p) PASSWD="${OPTARG}" ;;
     g) GITHUB_URL="${OPTARG}" ;;
     m) MYDRIVE_USER="${OPTARG}" ;;
-    w) MYDRIVE_PASSWORD="${OPTARG}" ;;
+    n) MYDRIVE_PASSWORD="${OPTARG}" ;;
+    w) WEB='true' ;;
     f) FREESBB='true' ;;
     b) BRANCH=${OPTARG} ;;
     h) echo "$USAGE"; exit 0 ;;
@@ -35,6 +37,7 @@ echo "Hostname: $NAME"
 echo "Password: $PASSWD"
 echo "Branch: $BRANCH"
 echo "Freesbb: $FREESBB"
+echo "Web: $WEB"
 echo "Update config via Github url: $GITHUB_URL"
 echo "Update config via Mydrive user: $MYDRIVE_USER"
 echo "Update config via Mydrive password: $MYDRIVE_PASSWORD"
@@ -90,6 +93,13 @@ DIR="/tmp/cimon_github/cimon_setup"
 echo "Setup..."
 bash $DIR/setup.sh
 CheckReturncode
+
+# install web page
+if [[ "$WEB" == "true" ]]; then
+    echo "Setup web..."
+    bash $DIR/setup_web.sh
+    CheckReturncode
+fi
 
 # free sbb if not allready installed
 if [[ "$FREESBB" == "true" && ! -d /opt/cimon/freesbb ]]; then

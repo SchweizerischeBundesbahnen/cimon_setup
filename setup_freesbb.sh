@@ -35,6 +35,6 @@ sleep 10
 python3 /opt/cimon/freesbb/freesbb.py > /dev/null
 echo "$(date) Freesbb script run, result is $?"
 
-echo "$(date) Setup terminated OK."
+echo "$(date) Setup freesbb terminated OK."
 # check it was installed
 ls /opt/cimon/freesbb > /dev/null
