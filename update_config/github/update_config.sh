@@ -6,6 +6,7 @@ HN=$(hostname)
 BRANCH=config/$HN
 WORKSPACE=/tmp/cimon_github/config
 URL=$(cat ~/cimon/.update_config_url)
+MYDIR=$(dirname $(readlink -f $0))
 
 if [[ ! $URL ]]; then
     echo "$(date) Could not find the update_config_url"
@@ -27,6 +28,10 @@ CheckReturncode() {
     fi
 }
 
+git config --global user.name $HN
+git config --global user.email cimon@fantas.ie
+git config --global push.default simple
+
 mkdir -p $WORKSPACE 1>/dev/null 2>&1
 
 # get the newest repo version
@@ -41,9 +46,9 @@ if [ ! -d $WORKSPACE/.git ]; then
         # branch does not exist
         git checkout -b $BRANCH
         CheckReturncode del
-        git push origin
+        git push --set-upstream origin $BRANCH
         CheckReturncode del
-    else
+   else
         git checkout $BRANCH
         CheckReturncode del
     fi
@@ -54,7 +59,7 @@ else
     CheckReturncode
     git checkout $BRANCH
     CheckReturncode del
-    git diff-index --quiet origin/config/bli
+    git diff-index --quiet origin/$BRANCH
     if [[ $? -ne 0 ]]; then
         # something was changed
         git merge -s recursive -X theirs origin/$BRANCH
