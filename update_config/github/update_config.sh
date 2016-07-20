@@ -66,15 +66,15 @@ fi
 MYDIR=$(dirname $(readlink -f $0))
 
 # now start the actual update process
-$MYDIR/copy_restart_if_changed.sh $WORKSPACE
+$MYDIR/copy_restart_if_changed.sh $WORKSPACE/config
 RESTARTED=$?
 
 # write the ip and mac address onto the mydrive
-mkdir -p $HN
-bash $MYDIR/dump_addresses.sh $WORKSPACE/$HN > /dev/null 2>&1
+mkdir -p status/$HN
+bash $MYDIR/dump_addresses.sh $WORKSPACE/status/$HN > /dev/null 2>&1
 CheckReturncode
 
-git add $HN/address.txt
+git add status/$HN/address.txt
 CheckReturncode
 
 git diff-index --quiet HEAD
@@ -84,7 +84,6 @@ if [[ $? -ne 0 ]]; then
     git push origin
 fi
 
-# if something was changed restart
 if [[ $RESTARTED -eq 1 ]]; then
     git tag -f -a configured_$HN
     CheckReturncode

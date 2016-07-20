@@ -124,7 +124,7 @@ fi
 
 if [[ $PASSWD ]]; then
     echo "Chaning password..."
-    echo pi:$PASSWD | chpasswd
+    echo pi:$PASSWD | sudo chpasswd
     if [[ $? ]]; then
         echo "Changed password"
     else
