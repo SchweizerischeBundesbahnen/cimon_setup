@@ -13,15 +13,17 @@ CheckReturncode() {
 
 pushd .
 
-USAGE="Usage: -n <hostname> [-p <password>] [-g <github_url>] [-m <mydrive_user> -w <mydrive_password>] [-b branch] [-f] [-w] [-h]"
+USAGE="Usage: -n <hostname> [-p <password>] [-e <email sender>] [-t <send monitoring email to address>] [-g <github_url>] [-m <mydrive_user> -w <mydrive_password>] [-b branch] [-f] [-w] [-h]"
 FREESBB='false'
 WEB='false'
 BRANCH="master"
 
-while getopts ":n:p:g:m:n:fwb:h" flag; do
+while getopts ":n:p:e:t:g:m:n:fwb:h" flag; do
   case "${flag}" in
     n) NAME="${OPTARG}" ;;
     p) PASSWD="${OPTARG}" ;;
+    e) EMAIL_SENDER="${OPTARG}" ;;
+    t) EMAIL_TO="${OPTARG}" ;;
     g) GITHUB_URL="${OPTARG}" ;;
     m) MYDRIVE_USER="${OPTARG}" ;;
     n) MYDRIVE_PASSWORD="${OPTARG}" ;;
@@ -33,8 +35,14 @@ while getopts ":n:p:g:m:n:fwb:h" flag; do
   esac
 done
 
+if [[ ! $EMAIL_TO && $EMAIL_SENDER ]]; then
+    EMAIL_TO=$EMAIL_SENDER
+fi
+
 echo "Hostname: $NAME"
 echo "Password: $PASSWD"
+echo "Email Sender: $EMAIL_SENDER"
+echo "Email To: $EMAIL_TO"
 echo "Branch: $BRANCH"
 echo "Freesbb: $FREESBB"
 echo "Web: $WEB"
@@ -93,6 +101,12 @@ DIR="/tmp/cimon_github/cimon_setup"
 echo "Setup..."
 bash $DIR/setup.sh
 CheckReturncode
+
+if [[ -f $USBSTICK/ssmtp.conf && $EMAIL_SENDER ]]; then
+    echo "Setup email..."
+    bash $DIR/setup_email.sh $USBSTICK/ssmtp.conf $EMAIL_SENDER $EMAIL_TO
+    CheckReturncode
+fi
 
 # install web page
 if [[ "$WEB" == "true" ]]; then

@@ -14,13 +14,11 @@ HN=$(hostname)
 IF=$(ip route show default | grep -Po '(?<=(dev )).*(?= proto)')
 IF=${IF%"${IF##*[![:space:]]}"} # it may have a trailing blank, remove
 
-# fetch its mac address
-MAC=$(ifconfig $IF | awk '/HWaddr/{print $5}')
-
-# and its current IPv4 address
-IP=$(ifconfig $IF | awk '/inet addr/{print substr($2,6)}')
+ADDRESS_TXT="$HN $(ifconfig $IF | head -n 3)"
 
 # if changed, write the file address.txt in the format <hostname> <interface> <mac_address> <ip_address>
-if [[ ! -f $DIR/address.txt || ! "$HN $IF $MAC $IP" == "$(cat $DIR/address.txt)" ]]; then
-    echo "$HN $IF $MAC $IP" > $DIR/address.txt
+if [[ ! -f $DIR/address.txt || "$ADDRESS_TXT" != "$(cat $DIR/address.txt)" ]]; then
+    echo "$ADDRESS_TXT" > $DIR/address.txt
+    exit 1
 fi
+exit 0

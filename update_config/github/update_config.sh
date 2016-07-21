@@ -24,7 +24,17 @@ CheckReturncode() {
             echo "Deleting workspace in case there is an issue"
             rm -rf $WORKSPACE 1>/dev/null 2>&1
         fi
+        SendMail "Config Update Failed" "$(tail -99l /var/log/cimon/update_config.log)"
         exit $RC
+    fi
+}
+
+SendMail() {
+    if [[ -f ~/cimon/.mailto ]]; then
+        echo "$2" | mail -s "CIMON $HN: $1" $(grep ~/cimon/.mailto)
+        if [[ $? -ne 0 ]]; then
+            echo "$(date) Failed to send email"
+        fi
     fi
 }
 
@@ -55,10 +65,10 @@ if [ ! -d $WORKSPACE/.git ]; then
 else
     echo "$repo is checked out in $WORKSPACE, pulling"
     cd $WORKSPACE
-    git fetch origin
-    CheckReturncode
     git checkout $BRANCH
     CheckReturncode del
+    git fetch origin
+    CheckReturncode
     git diff-index --quiet origin/$BRANCH
     if [[ $? -ne 0 ]]; then
         # something was changed
@@ -67,33 +77,19 @@ else
     fi
 fi
 
-
-MYDIR=$(dirname $(readlink -f $0))
-
 # now start the actual update process
 $MYDIR/copy_restart_if_changed.sh $WORKSPACE/config
 RESTARTED=$?
 
-# write the ip and mac address onto the mydrive
-mkdir -p status/$HN
-bash $MYDIR/dump_addresses.sh $WORKSPACE/status/$HN > /dev/null 2>&1
-CheckReturncode
-
-git add status/$HN/address.txt
-CheckReturncode
-
-git diff-index --quiet HEAD
-if [[ $? -ne 0 ]]; then
-    git commit -m "Changed by update_config.sh on $HN"
-    CheckReturncode del
-    git push origin
+mkdir ~/cimon/status
+bash $MYDIR/dump_addresses.sh ~/cimon/status > /dev/null 2>&1
+NEWADDRESS=$?
+if [[ $NEWADDRESS -eq 1 && -f ~/cimon/.mailto ]]; then
+    echo -e "$(grep ~/cimon/status/address.txt)" | mail -s "CIMON $HN: New Address" $(grep ~/cimon/.mailto)
 fi
 
-if [[ $RESTARTED -eq 1 ]]; then
-    git tag -f -a configured_$HN
-    CheckReturncode
-    git push -f --tags origin
-    CheckReturncode
+if [[ $RESTARTED -eq 1  && -f ~/cimon/.mailto ]]; then
+    SendMail "Updated Config" "The configuration on $HN was updated, new config: $(grep ~/cimon/cimon.yaml)"
 fi
 
 popd

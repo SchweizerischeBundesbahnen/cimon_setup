@@ -21,10 +21,14 @@ IF "%3"=="" GOTO END
 IF NOT EXIST %3 GOTO END
 copy /Y %3 %1\
 
+IF "%4"=="" GOTO END
+IF NOT EXIST %4 GOTO END
+copy /Y %4 %1\
+
 goto END
 
 :PARAM
-echo 1 parameters required: USB Stick drive (for instance F:), 2 optional parameters: key file with path, start script with path
+echo 1 parameters required: USB Stick drive (for instance F:), 3 optional parameters: 3 optional parameters: key file with path, start script with path, ssmtp.conf with path
 goto END
 
 :FILE

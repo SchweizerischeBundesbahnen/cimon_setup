@@ -2,7 +2,7 @@
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # cimon, SBB, FSe 2016
 if [[ ! $1 ]]; then
-    echo "1 parameters required: USB Stick mount directory, 2 optional parameters: key file with path, start script with path"
+    echo "1 parameters required: USB Stick mount directory, 3 optional parameters: key file with path, start script with path, ssmtp.conf with path"
     exit 5
 fi
 
@@ -24,4 +24,8 @@ fi
 
 if [[ $3 ]]; then
     copy -f $3 $1
+fi
+
+if [[ $4 ]]; then
+    copy -f $4 $1
 fi
