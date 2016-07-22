@@ -2,12 +2,6 @@
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # install the update_config scripts
 SETUPDIR=$(dirname $(readlink -f $0))
-MODE=$(cat ~/cimon/.update_config_mode)
-
-if [[ "$MODE" != "github" && "$MODE" != "mydrive" ]]; then
-    echo "Invalid update_config_mode mode $MODE"
-    exit 90
-fi
 
 pushd .
 
@@ -29,7 +23,7 @@ if [[ ! -f /opt/cimon/update_config/.version || $(cat /opt/cimon/update_config/.
     sudo mkdir -p /opt/cimon > /dev/null 2>&1
     sudo chmod a+rwx /opt/cimon > /dev/null 2>&1
     mkdir -p /opt/cimon/update_config
-    cp -f $SETUPDIR/$MODE/update_config.sh /opt/cimon/update_config/update_config.sh
+    cp -f $SETUPDIR/update_config.sh /opt/cimon/update_config/update_config.sh
     cp -f $SETUPDIR/copy_restart_if_changed.sh /opt/cimon/update_config/copy_restart_if_changed.sh
     cp -f $SETUPDIR/dump_addresses.sh /opt/cimon/update_config/dump_addresses.sh
     chmod a+rx /opt/cimon/update_config/*.sh

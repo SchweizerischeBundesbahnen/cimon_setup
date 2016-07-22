@@ -9,7 +9,7 @@ URL=$(cat ~/cimon/.update_config_url)
 MYDIR=$(dirname $(readlink -f $0))
 
 if [[ ! $URL ]]; then
-    echo "$(date) Could not find the update_config_url"
+    echo "$(date) Could not find the update_config_url (~/cimon/.update_config_url)"
     exit 91
 fi
 
@@ -31,7 +31,7 @@ CheckReturncode() {
 
 SendMail() {
     if [[ -f ~/cimon/.mailto ]]; then
-        echo "$2" | mail -s "CIMON $HN: $1" $(grep ~/cimon/.mailto)
+        echo -e "$2" | mail -s "CIMON $HN: $1" $(grep ~/cimon/.mailto)
         if [[ $? -ne 0 ]]; then
             echo "$(date) Failed to send email"
         fi
@@ -85,11 +85,11 @@ mkdir ~/cimon/status
 bash $MYDIR/dump_addresses.sh ~/cimon/status > /dev/null 2>&1
 NEWADDRESS=$?
 if [[ $NEWADDRESS -eq 1 && -f ~/cimon/.mailto ]]; then
-    echo -e "$(grep ~/cimon/status/address.txt)" | mail -s "CIMON $HN: New Address" $(grep ~/cimon/.mailto)
+    SendMail  "New Address" "$(grep ~/cimon/status/address.txt)"
 fi
 
 if [[ $RESTARTED -eq 1  && -f ~/cimon/.mailto ]]; then
-    SendMail "Updated Config" "The configuration on $HN was updated, new config: $(grep ~/cimon/cimon.yaml)"
+    SendMail "Updated Config" "The configuration on $HN was updated, new config:\n\n$(grep ~/cimon/cimon.yaml)"
 fi
 
 popd

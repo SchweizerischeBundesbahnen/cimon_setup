@@ -13,20 +13,18 @@ CheckReturncode() {
 
 pushd .
 
-USAGE="Usage: -n <hostname> [-p <password>] [-e <email sender>] [-t <send monitoring email to address>] [-g <github_url>] [-m <mydrive_user> -w <mydrive_password>] [-b branch] [-f] [-w] [-h]"
+USAGE="Usage: -n <hostname> [-p <password>] [-e <email sender>] [-t <send monitoring email to address>] [-g <config github_url>] [-b branch] [-f] [-w] [-h]"
 FREESBB='false'
 WEB='false'
 BRANCH="master"
 
-while getopts ":n:p:e:t:g:m:n:fwb:h" flag; do
+while getopts ":n:p:e:t:g:fwb:h" flag; do
   case "${flag}" in
     n) NAME="${OPTARG}" ;;
     p) PASSWD="${OPTARG}" ;;
     e) EMAIL_SENDER="${OPTARG}" ;;
     t) EMAIL_TO="${OPTARG}" ;;
     g) GITHUB_URL="${OPTARG}" ;;
-    m) MYDRIVE_USER="${OPTARG}" ;;
-    n) MYDRIVE_PASSWORD="${OPTARG}" ;;
     w) WEB='true' ;;
     f) FREESBB='true' ;;
     b) BRANCH=${OPTARG} ;;
@@ -47,22 +45,10 @@ echo "Branch: $BRANCH"
 echo "Freesbb: $FREESBB"
 echo "Web: $WEB"
 echo "Update config via Github url: $GITHUB_URL"
-echo "Update config via Mydrive user: $MYDRIVE_USER"
-echo "Update config via Mydrive password: $MYDRIVE_PASSWORD"
 
 if [[ ! $NAME ]]; then
     echo "Missing parameter -n <hostname>, usage: $USAGE"
     exit 43
-fi
-
-if [[ $GITHUB_URL && $MYDRIVE_USER ]]; then
-    echo "You can not choose both -g github and -m mydrive for config update"
-    exit 44
-fi
-
-if [[ $MYDRIVE_USER && ! $MYDRIVE_PASSWORD ]]; then
-    echo "Paramterer mydrive -m <mydrive_user> set, but parameter -w <mydrive_password> missing. Usage: $USAGE"
-    exit 45
 fi
 
 USBSTICK=$(dirname $(readlink -f $0))
@@ -120,20 +106,17 @@ if [[ "$FREESBB" == "true" && ! -d /opt/cimon/freesbb ]]; then
     echo "Setup free sbb..."
     bash $DIR/setup_freesbb.sh
     CheckReturncode
+else
+    echo "Freesbb not configured"
 fi
 
 # update config via github
 if [[ $GITHUB_URL  ]]; then
     echo "Setup update config via github..."
-    bash $DIR/setup_update_config.sh github $GITHUB_URL
+    bash $DIR/setup_update_config.sh $GITHUB_URL
     CheckReturncode
 else
-    # update config via mydrive
-    if [[ $MYDRIVE_USER  ]]; then
-        echo "Setup update config via mydrive..."
-        bash $DIR/setup_update_config.sh mydrive $MYDRIVE_USER $MYDRIVE_PASSWORD
-        CheckReturncode
-    fi
+    echo "Update config via github not configured"
 fi
 
 if [[ $PASSWD ]]; then

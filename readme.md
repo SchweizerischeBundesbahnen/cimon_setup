@@ -23,10 +23,17 @@ Setup the cimon device, start/stop scripts, auto update and so on. Tested on Ras
 * Run the script on the memory stick
 
     cd /media/pi/<usb_stick>
-    bash ./start_setup_all.sh <hostname> <mydrive_user> <mydrive_password>
+    # install with minimum recomended parameters/features
+    bash ./start_setup.sh -n <hostname> -p <password> -e <email sender> -t <send monitoring email to address> -g <config github_url>
 
-    # alternatively, if you want to use another branch, for instance develop, set the file
-    echo "develop" > ~/cimon/cimon_branch
+    # installs from master. if you want to install from another branch (for instance develop) set the -b parameter
+    bash ./start_setup.sh [...] -b <branch>
+    
+    # if you need freesbb set the -f parameter
+    bash ./start_setup.sh [...] -f
+    
+    # if you need the web gui set the -w parameter
+    bash ./start_setup.sh [...] -w
 
 ## Prerequisites
 * Setup Keyboard (Keyboard: "Menu->Preferences->Rasberry Pi Configuration") if required (default is UK)
@@ -97,27 +104,17 @@ The configuration for FreeSBB WLAN with a Python Script to handle autoconnect as
     ./setup_freesbb.sh
 
 ## setup_update_config.sh: Update the config
-Prerequisite: you need to have set a meaningfull, unique hostname.
-
-### Update config via github
 Update the configuration via github.
+
+Prerequisite: you need to have set a meaningfull, unique hostname.
 
 * Will create a branch config/<hostname> if it does not exist yet and geht the config from this branch.
 * Will write, add commit and push a file "address.txt" to the repo
 * Will move a tag "configured_<hostname>" whenever a configuration has been deployed
 
+    # setup update config via github
     cd /tmp/cimon_github/cimon_setup
-    ./setup_update_config.sh github <url>
-
-### Update config via mydrive.ch
-Update the configuration from mydrive.ch (Read from mydrive.ch every 5 minutes and copy if changed). Will copy configuration and plugins from the folder config/<hostname> on the mydrive.
-
-Requires 2 parametes: mydrive user and password
-
-    cd /tmp/cimon_github/cimon_setup
-    ./setup_update_config.sh mydrive <user> <password>
-    
-Now you will have a folder config/<hostname> on your mydrive. If you have a config/templates directory, you will have the config.yaml from there copied to your directory.
+    ./setup_update_config.sh <url>
 
 ## update.sh: Autoupdate entrance point
 The git Autoupdate will clone this repository (cimon_setup) and call update.sh.

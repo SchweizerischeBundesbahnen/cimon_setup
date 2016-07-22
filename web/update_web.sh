@@ -5,7 +5,7 @@ pushd .
 
 bash $SETUPDIR/../autoupdate/clone_or_pull_github.sh /tmp/cimon_github cimon_web
 
-cd /tmp/cimon_github/cimon_web
+cd /tmp/cimon_Fgithub/cimon_web
 
 mkdir -p /opt/cimon/web
 
