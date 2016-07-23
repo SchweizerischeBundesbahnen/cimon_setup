@@ -31,7 +31,7 @@ CheckReturncode() {
 
 SendMail() {
     if [[ -f ~/cimon/.mailto ]]; then
-        echo -e "$2" | mail -s "CIMON $HN: $1" $(grep ~/cimon/.mailto)
+        echo -e "$2" | mail -s "CIMON $HN: $1" $(cat ~/cimon/.mailto)
         if [[ $? -ne 0 ]]; then
             echo "$(date) Failed to send email"
         fi
@@ -51,7 +51,7 @@ if [ ! -d $WORKSPACE/.git ]; then
     cd $WORKSPACE
     git clone $URL .
     CheckReturncode
-    git rev-parse --quiet --verify $BRANCH 1>/dev/null
+    git rev-parse --quiet --verify origin/$BRANCH 1>/dev/null
     if [[ $? -ne 0 ]]; then
         # branch does not exist
         git checkout -b $BRANCH
@@ -65,11 +65,11 @@ if [ ! -d $WORKSPACE/.git ]; then
 else
     echo "$repo is checked out in $WORKSPACE, pulling"
     cd $WORKSPACE
-    git checkout $BRANCH
+    git checkout $BRANCH 1>/dev/null
     CheckReturncode del
     git fetch origin
     CheckReturncode
-    git diff-index --quiet origin/$BRANCH
+    git diff-index --quiet origin/$BRANCH 1>/dev/null
     if [[ $? -ne 0 ]]; then
         # something was changed
         git merge -s recursive -X theirs origin/$BRANCH
@@ -85,11 +85,11 @@ mkdir ~/cimon/status
 bash $MYDIR/dump_addresses.sh ~/cimon/status > /dev/null 2>&1
 NEWADDRESS=$?
 if [[ $NEWADDRESS -eq 1 && -f ~/cimon/.mailto ]]; then
-    SendMail  "New Address" "$(grep ~/cimon/status/address.txt)"
+    SendMail  "New Address" "$(cat ~/cimon/status/address.txt)"
 fi
 
 if [[ $RESTARTED -eq 1  && -f ~/cimon/.mailto ]]; then
-    SendMail "Updated Config" "The configuration on $HN was updated, new config:\n\n$(grep ~/cimon/cimon.yaml)"
+    SendMail "Updated Config" "The configuration on $HN was updated, new config:\n\n$(cat ~/cimon/cimon.yaml)"
 fi
 
 popd

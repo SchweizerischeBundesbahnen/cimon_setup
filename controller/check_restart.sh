@@ -3,7 +3,7 @@
 # check if cimon controller is running, and send mail and restart if not
 SendMailWithLogs() {
     if [[ -f ~/cimon/.mailto ]]; then
-        echo -e "$2\n-----cimon.log-----\n$(tail -99l /var/log/cimon/cimon.log)\n\n-----cimon_stdouterr.log-----\n$(tail -29l /var/log/cimon/cimon_stdouterr.log)" | mail -s "CIMON $(hostname): $1" $(grep ~/cimon/.mailto)
+        echo -e "$2\n-----cimon.log-----\n$(tail -99l /var/log/cimon/cimon.log)\n\n-----cimon_stdouterr.log-----\n$(tail -29l /var/log/cimon/cimon_stdouterr.log)" | mail -s "CIMON $(hostname): $1" $(cat ~/cimon/.mailto)
      fi
 }
 

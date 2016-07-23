@@ -35,7 +35,7 @@ echo "Copying ssmtp.conf..."
 sudo cp -f $SSMTP_CONF_FILE /etc/ssmtp/ssmtp.conf
 
 # requried so we put the correct from (nowadays a must else the mail is rejected)
-sudo bash -c 'echo "pi:$EMAIL_SENDER" > /etc/ssmtp/revaliases'
+sudo EMAIL_SENDER=$EMAIL_SENDER bash -c 'echo "pi:$EMAIL_SENDER" > /etc/ssmtp/revaliases'
 
 echo "$EMAIL_TO" > ~/cimon/.mailto
 
