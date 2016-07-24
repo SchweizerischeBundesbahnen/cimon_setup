@@ -16,6 +16,12 @@ LOGFILE="/var/log/cimon/cimon_stouterr.log"
 export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
 
 Start() {
+    # first validate the configuration
+    $DEAMON $DEAMON_OPTS --validate > $LOGFILE 2>&1
+    if [ $? -ne 0 ]; then
+        echo "Invalid configuration, see $LOGFILE"
+        exit 1
+    fi
     mkdir -p `dirname $PIDFILE`
     chown $USER `dirname $PIDFILE`
     start-stop-daemon --start --quiet --chuid $USER --background --no-close --make-pidfile --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_OPTS > $LOGFILE 2>&1

@@ -16,8 +16,8 @@ sudo chmod a+x /etc/init.d/cimon.sh
 sudo update-rc.d cimon.sh defaults
 sudo systemctl daemon-reload
 # install the check script
-cp $SETUPDIR/check_restart.sh /opt/cimon/controller/check_restart.sh
-sudo chmod a+x /opt/cimon/controller/check_restart.sh
+cp $SETUPDIR/check_restart.sh /opt/cimon/controller/watchdog.sh
+sudo chmod a+x /opt/cimon/controller/watchdog.sh
 # cronjob for start/restart in case there is an issue
 sudo cp $SETUPDIR/cron.d/cimon /etc/cron.d/cimon
 sudo chmod g-x,o-x /etc/cron.d/cimon

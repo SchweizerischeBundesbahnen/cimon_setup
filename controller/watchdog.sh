@@ -15,7 +15,13 @@ if [[ $? -ne 0 ]]; then
         echo "$(date) Start cimon controller failed." >> /var/log/cimon/cimon_stdouterr.log
         SendMailWithLogs  "Cimon controller start failed" "Cimon Controller on $(hostname) start failed at $(date)."
     else
-        echo "$(date) Cimon controller started." >> /var/log/cimon/cimon_stdouterr.log
-        SendMailWithLogs  "Cimon controller started" "Cimon Controller on $(hostname) (re)started at $(date)."
+        sleep 10 # make sure its started
+        sudo service cimon status 1>/dev/null 2>&1
+        if [[ $? -ne 0 ]]; then
+            echo "$(date) Cimon controller did not start." >> /var/log/cimon/cimon_stdouterr.log
+            SendMailWithLogs  "Cimon controller did not start" "Cimon Controller on $(hostname) did not start at $(date)."
+        else
+            echo "$(date) Cimon controller started." >> /var/log/cimon/cimon_stdouterr.log
+        fi
     fi
 fi
