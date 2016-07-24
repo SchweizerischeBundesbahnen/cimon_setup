@@ -21,7 +21,7 @@ CheckReturncode
 
 if [[ -d /opt/cimon/update_config ]]; then
     # update the update config script
-    bash $SETUPDIR/update_config/install_or_update_update_config.sh
+    bash $SETUPDIR/update_config/update_update_config.sh
     CheckReturncode
 fi
 
@@ -31,7 +31,11 @@ if [[ -d /opt/cimon/web ]]; then
     CheckReturncode
 fi
 
-# update_config the controllerscripts
+# update the start/stop script and watchdog script of the controller
+bash $SETUPDIR/controller/update_start_stop_watchdog.sh
+CheckReturncode
+
+# update the controllerscripts
 bash $SETUPDIR/controller/update_controller.sh
 CheckReturncode
 

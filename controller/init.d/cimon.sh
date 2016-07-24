@@ -17,7 +17,7 @@ export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
 
 Start() {
     # first validate the configuration
-    $DEAMON $DEAMON_OPTS --validate > $LOGFILE 2>&1
+    sudo -u pi $DAEMON $DAEMON_OPTS --validate > $LOGFILE 2>&1
     if [ $? -ne 0 ]; then
         echo "Invalid configuration, see $LOGFILE"
         exit 1

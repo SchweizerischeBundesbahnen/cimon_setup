@@ -24,7 +24,7 @@ echo "$(date) Starting setup update config..."
 echo "$URL" > ~/cimon/.update_config_url
 
 echo "$(date) Install update config..."
-bash $SETUPDIR/update_config/install_or_update_update_config.sh
+bash $SETUPDIR/update_config/update_update_config.sh
 CheckReturncode
 echo "$(date) Update config installed"
 
