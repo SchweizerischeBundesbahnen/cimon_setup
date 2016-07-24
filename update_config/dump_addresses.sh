@@ -5,6 +5,7 @@
 
 if [[ ! -d $1 ]]; then
     echo "Missing or invalid parameter directory: $1"
+    exit 12
 fi
 DIR=$1
 
@@ -12,7 +13,11 @@ HN=$(hostname)
 
 # the current interface with the default route
 IF=$(ip route show default | grep -Po '(?<=(dev )).*(?= proto)')
-IF=${IF%"${IF##*[![:space:]]}"} # it may have a trailing blank, remove
+
+if [[ ! $IF ]]; then
+    echo "No interface with default route found"
+    exit 13
+fi
 
 ADDRESS_TXT="$HN $(ifconfig $IF | head -n 3)"
 
