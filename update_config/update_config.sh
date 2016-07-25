@@ -89,13 +89,6 @@ else
     exit $RC
 fi
 
-mkdir -p ~/cimon/status
-bash $MYDIR/dump_addresses.sh ~/cimon/status > /dev/null 2>&1
-NEWADDRESS=$?
-if [[ $NEWADDRESS -eq 1 ]]; then
-    SendMail  "New Address" "$(cat ~/cimon/status/address.txt)"
-fi
-
 if [[ $RESTARTED -eq 1 ]]; then
     SendMail "Updated Config" "The configuration on $HN was updated at $(date), new config:\n\n$(cat ~/cimon/cimon.yaml)"
 fi
