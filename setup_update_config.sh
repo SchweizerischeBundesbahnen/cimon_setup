@@ -18,6 +18,11 @@ URL=$1
 
 SETUPDIR=$(dirname $(readlink -f $0))
 
+echo "$(date) Creating the /opt/cimon dir if required..."
+bash $SETUPDIR/create_cimon_dir.sh
+CheckReturncode
+
+echo "$(date) Creating the ~/cimon dir if required..."
 mkdir -p ~/cimon 1>/dev/null 2>&1
 
 echo "$(date) Starting setup update config..."

@@ -5,6 +5,11 @@ SETUPDIR=$(dirname $(readlink -f $0))/freesbb
 
 echo "$(date) Starting Setup freesbb..."
 
+echo "$(date) Creating the /opt/cimon dir if required..."
+bash $SETUPDIR/create_cimon_dir.sh
+CheckReturncode
+echo "$(date) Cimon dir created"
+
 # free sbb wlan auto connect (use wpa supplicant in order to allow reconnect)
 echo "$(date) Installing network config files..."
 sudo cp $SETUPDIR/network/interfaces /etc/network/interfaces
@@ -21,8 +26,6 @@ echo "$(date) Wlan0 and service networking restarted"
 
 echo "$(date) Installing the freesbb script and chronjob..."
 # script to click the accept (gratis ins internet) button
-sudo mkdir -p /opt/cimon  1>/dev/null 2>&1
-sudo chmod a+rwx /opt/cimon  1>/dev/null 2>&1
 mkdir -p /opt/cimon/freesbb
 cp $SETUPDIR/src/*.py /opt/cimon/freesbb/
 sudo cp $SETUPDIR/cron.d/freesbb /etc/cron.d/freesbb

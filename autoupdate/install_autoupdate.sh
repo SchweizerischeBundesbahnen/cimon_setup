@@ -2,8 +2,6 @@
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # install the update_config scripts
 SETUPDIR=$(dirname $(readlink -f $0))
-sudo mkdir -p /opt/cimon > /dev/null 2>&1
-sudo chmod a+rwx /opt/cimon > /dev/null 2>&1
 mkdir -p /opt/cimon/autoupdate
 cp -n $SETUPDIR/autoupdate.sh /opt/cimon/autoupdate/autoupdate.sh
 cp -n $SETUPDIR/clone_or_pull_github.sh /opt/cimon/autoupdate/clone_or_pull_github.sh

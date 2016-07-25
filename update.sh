@@ -19,6 +19,10 @@ CheckReturncode
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
 CheckReturncode
 
+# recreate the cimon dir in case it is missing
+bash $SETUPDIR/create_cimon_dir.sh
+CheckReturncode
+
 if [[ -d /opt/cimon/update_config ]]; then
     # update the update config script
     bash $SETUPDIR/update_config/update_update_config.sh

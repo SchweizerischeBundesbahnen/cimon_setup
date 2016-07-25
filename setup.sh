@@ -56,6 +56,11 @@ bash $SETUPDIR/chromium/install_chromium.sh
 CheckReturncode
 echo "$(date) Sispmctl installed"
 
+echo "$(date) Creating the /opt/cimon dir if required..."
+bash $SETUPDIR/create_cimon_dir.sh
+CheckReturncode
+echo "$(date) Cimon dir created"
+
 # scripts aufrufen
 # Clewarecontrol - Steuerung USB Ampel
 echo "$(date) Installing clewarecontrol..."

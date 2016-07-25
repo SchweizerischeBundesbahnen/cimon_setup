@@ -16,8 +16,6 @@ fi
 # if no version file (for instance new installation) or version has changed
 if [[ ! -f /opt/cimon/update_config/.version || $(cat /opt/cimon/update_config/.version) != $(git rev-parse HEAD) ]]; then
     SETUPDIR=$(dirname $(readlink -f $0))
-    sudo mkdir -p /opt/cimon > /dev/null 2>&1
-    sudo chmod a+rwx /opt/cimon > /dev/null 2>&1
     mkdir -p /opt/cimon/update_config
     cp -f $SETUPDIR/update_config.sh /opt/cimon/update_config/update_config.sh
     cp -f $SETUPDIR/copy_restart_if_changed.sh /opt/cimon/update_config/copy_restart_if_changed.sh
