@@ -19,7 +19,13 @@ if [[ ! $IF ]]; then
     exit 13
 fi
 
-ADDRESS_TXT="$HN $(ifconfig $IF | head -n 3)"
+ADDRESS=$(ifconfig $IF | head -n 3)
+if [[ ! $ADDRESS ]]; then
+    echo "No address found"
+    exit 14
+fi
+
+ADDRESS_TXT="$HN $ADDRESS"
 
 # if changed, write the file address.txt in the format <hostname> <interface> <mac_address> <ip_address>
 if [[ ! -f $DIR/address.txt || "$ADDRESS_TXT" != "$(cat $DIR/address.txt)" ]]; then
