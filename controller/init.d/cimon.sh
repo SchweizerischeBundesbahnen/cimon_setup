@@ -11,7 +11,7 @@ PIDFILE=/var/run/cimon/cimon.pid
 DAEMON=/usr/bin/python3
 DAEMON_OPTS="/opt/cimon/controller/cimon.py"
 USER=pi
-LOGFILE="/var/log/cimon/cimon_stouterr.log"
+LOGFILE="/var/log/cimon/cimon_stdouterr.log"
 
 export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
 
