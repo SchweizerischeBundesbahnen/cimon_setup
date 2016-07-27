@@ -16,8 +16,8 @@ wget --content-disposition 'https://sourceforge.net/projects/sispmctl/files/late
 tar xzvf sispmctl-*.tar.gz
 cd sispmctl-*
 ./configure
-make
-sudo make install
+make > /dev/null
+sudo make install > /dev/null
 # refresh the libraries
 sudo ldconfig
 # USB Device als User
