@@ -1,0 +1,6 @@
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
+# cimon, SBB, FSe 2016
+# check config on mydrive in the cloud and update if newer
+*/5 * * * * pi /opt/cimon/update_config/update_config.sh >> /var/log/cimon/update_config.log 2>&1
+# send mail if the address has changed
+*/12 * * * * pi /opt/cimon/update_config/mail_address.sh >> /var/log/cimon/update_config.log 2>&1

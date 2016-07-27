@@ -1,0 +1,4 @@
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
+# Cimon
+# autonnect the energenie socket controlled via sispmctl
+ATTRS{idVendor}=="04b4", ATTRS{idProduct}=="fd13", SUBSYSTEMS=="usb", MODE="0666", GROUP="plugdev"

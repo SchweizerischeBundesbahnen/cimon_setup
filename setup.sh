@@ -1,0 +1,157 @@
+#!/usr/bin/env bash
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
+# Setup the Rasberry and the scripts
+#
+# Getestet für Rasberry Pi 2 und 3
+# Vorraussetzung: Rassbian (Debian Jessy) bereits installiert, am besten SD-Karte vorinstalliert kaufen oder dd unter Linux bzw. Win32DiskImager verwenden
+# und das Gerät ist an einem Netz (nicht SBB!) angehängt
+#
+# Dieses Cimon GIT Repository clonen und usb_stick/pack_usb_stick.bat <laufwerk> oder usb_stick/pack_usb_stick.sh <mountpoint> aufrufen
+# Tastatur und Uhrzeit einstellen (Tastatureinstellung via "Menu->Preferences->Rasberry Pi Configuration" war nach Restart weg, ist ev. mittlerweile gefixed..., Alternative "sudo rasbi-config")
+#
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
+# Setup everything from an usb stick packed by pack_usb_stick
+
+CheckReturncode() {
+    RC=$?
+    if [[ $RC -ne 0 ]]; then
+        echo "$(date) Setup terminated in ERROR"
+        popd
+        exit $RC
+    fi
+}
+
+pushd .
+
+SETUPDIR=$(dirname $(readlink -f $0))
+
+USAGE="Usage: -n <hostname> [-p <password>]  [-k <keyfile>] [-s <ssmtp.conf file>] [-e <email sender>] [-t <send monitoring email to address>] [-g <config github_url>] [-b branch] [-f] [-w] [-h]"
+FREESBB='false'
+WEB='false'
+BRANCH="master"
+
+while getopts ":n:p:k:s:e:t:g:fwb:h" flag; do
+  case "${flag}" in
+    n) NAME="${OPTARG}" ;;
+    p) PASSWD="${OPTARG}" ;;
+    k) KEYFILE=${OPTARG} ;;
+    s) SSMTP_CONF=${OPTARG} ;;
+    e) EMAIL_SENDER="${OPTARG}" ;;
+    t) EMAIL_TO="${OPTARG}" ;;
+    g) GITHUB_URL="${OPTARG}" ;;
+    w) WEB='true' ;;
+    f) FREESBB='true' ;;
+    b) BRANCH=${OPTARG} ;;
+    h) echo "$USAGE"; exit 0 ;;
+    *) echo "Unexpected option ${flag}, $USAGE"; exit 42 ;;
+  esac
+done
+
+if [[ ! $EMAIL_TO && $EMAIL_SENDER ]]; then
+    EMAIL_TO=$EMAIL_SENDER
+fi
+
+echo "Hostname: $NAME"
+echo "Password: $PASSWD"
+echo "Keyfile: $KEYFILE"
+echo "Ssmtp.conf File: $SSMTP_CONF"
+echo "Email Sender: $EMAIL_SENDER"
+echo "Email To: $EMAIL_TO"
+echo "Branch: $BRANCH"
+echo "Freesbb: $FREESBB"
+echo "Web: $WEB"
+echo "Update config via Github url: $GITHUB_URL"
+echo "Setupdir: $SETUPDIR"
+
+if [[ ! $NAME ]]; then
+    echo "Missing parameter -n <hostname>, usage: $USAGE"
+    exit 43
+fi
+
+if [[ ! $SSMTP_CONF && $EMAIL_SENDER ]]; then
+    echo "Missing parameter -s <ssmtp conf file> required if -e <email sender> is set, usage: $USAGE"
+    exit 44
+fi
+
+wget -q -O- http://www.search.ch >> /dev/null
+if [[ $? -ne 0 ]]; then
+    echo "No network access, start setup terminated in ERROR"
+    exit 11
+fi
+
+mkdir -p ~/cimon
+if [[ $KEYFILE ]]; then
+    echo "Copying key.bin..."
+    cp $KEYFILE ~/cimon/key.bin
+    CheckReturncode
+fi
+
+echo "$BRANCH" > ~/cimon/.git_branch
+
+cd cimon_setup
+
+R="/tmp/cimon_github/cimon_setup"
+
+echo "Starting Setup..."
+
+bash $SETUPDIR/setup_base.sh
+CheckReturncode
+
+bash $SETUPDIR/setup_chromium.sh
+CheckReturncode
+
+if [[ $SSMTP_CONF ]]; then
+    echo "Setup email..."
+    bash $SETUPDIR/setup_email.sh $SSMTP_CONF $EMAIL_SENDER $EMAIL_TO
+    CheckReturncode
+fi
+
+bash $SETUPDIR/setup_controller.sh
+CheckReturncode
+
+bash $SETUPDIR/setup_autoupdate.sh
+CheckReturncode
+
+# install web page
+if [[ "$WEB" == "true" ]]; then
+    echo "Setup web..."
+    bash $SETUPDIR/setup_web.sh
+    CheckReturncode
+fi
+
+# free sbb if not allready installed
+if [[ "$FREESBB" == "true" && ! -d /opt/cimon/freesbb ]]; then
+    echo "Setup free sbb..."
+    bash $SETUPDIR/setup_freesbb.sh
+    CheckReturncode
+else
+    echo "Freesbb not configured"
+fi
+
+# update config via github
+if [[ $GITHUB_URL  ]]; then
+    echo "Setup update config via github..."
+    bash $SETUPDIR/setup_update_config.sh $GITHUB_URL
+    CheckReturncode
+else
+    echo "Update config via github not configured"
+fi
+
+if [[ $PASSWD ]]; then
+    echo "Chaning password..."
+    echo pi:$PASSWD | sudo chpasswd
+    if [[ $? ]]; then
+        echo "Changed password"
+    else
+        echo "Failed to change password!"
+    fi
+fi
+
+echo "Setting hostname..."
+sudo bash $SETUPDIR/set_hostname.sh $NAME >> /dev/null
+CheckReturncode
+
+popd
+
+read -n1 -rsp $'Done, press any key to reboot or Ctrl+C to exit...\n'
+reboot

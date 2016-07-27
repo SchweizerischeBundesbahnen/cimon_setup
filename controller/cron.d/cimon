@@ -1,0 +1,6 @@
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
+# cimon, SBB, FSe 2016
+# all 5 minutes start cimon controller if not running
+*/5 * * * * pi /opt/cimon/watchdog/watchdog.sh > /dev/null 2>&1
+# daily at 03:42 in the night restart the cimon controller
+42 3 * * * root service cimon restart > /dev/null 2>&1

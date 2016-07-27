@@ -1,0 +1,5 @@
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
+# Cimon
+#
+# every 2 minutes from 6-22 check if freesbb wlan connection button is required
+*/2 6-21 * * * pi python3 /opt/cimon/freesbb/freesbb.py > /dev/null 2>&1
