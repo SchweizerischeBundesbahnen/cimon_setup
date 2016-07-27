@@ -11,10 +11,10 @@ rm -rf /tmp/cimon_clewarecontrol 1>/dev/null 2>&1
 mkdir /tmp/cimon_clewarecontrol 1>/dev/null 2>&1
 cd /tmp/cimon_clewarecontrol
 # Clewarecontrol herunterladen: https://www.vanheusden.com/clewarecontrol/#download
-wget --content-disposition 'https://www.vanheusden.com/clewarecontrol/files/clewarecontrol-4.1.tgz'
+wget --content-disposition 'https://www.vanheusden.com/clewarecontrol/files/clewarecontrol-4.3.tgz'
 # make clewarecontrol
-tar -xvf clewarecontrol-4.1.tgz
-cd clewarecontrol-4.1
+tar -xvf clewarecontrol-4.3.tgz
+cd clewarecontrol-4.3
 sed -i -- 's/hidapi/hidapi-libusb/g' Makefile
 make clewarecontrol
 sudo make install
