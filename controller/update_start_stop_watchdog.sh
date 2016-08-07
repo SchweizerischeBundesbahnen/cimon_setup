@@ -18,7 +18,11 @@ fi
 if [[ ! -f /opt/cimon/watchdog/.version || $(cat /opt/cimon/watchdog/.version) != $(git rev-parse HEAD) ]]; then
     sudo cp $SETUPDIR/init.d/cimon.sh /etc/init.d
     sudo chmod a+x /etc/init.d/cimon.sh
-    sudo update-rc.d cimon.sh defaults
+    if [[ -f ~/cimon/.autostart_controller ]] && [[ "$(cat ~/cimon/.autostart_controller)" == "true" ]]; then
+        sudo update-rc.d cimon.sh defaults
+    else
+        sudo update-rc.d cimon.sh disable
+    fi
     sudo systemctl daemon-reload
     # install the check script
     mkdir -p /opt/cimon/watchdog

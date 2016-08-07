@@ -7,7 +7,7 @@ MYDIR=$(dirname $(readlink -f $0))
 mkdir -p ~/cimon/status
 bash $MYDIR/dump_addresses.sh ~/cimon/status > /dev/null 2>&1
 NEWADDRESS=$?
-if [[ $NEWADDRESS -eq 1 && -f ~/cimon/.mailto ]]; then
+if [[ $NEWADDRESS -eq 1 ]] && [[ -f ~/cimon/.mailto ]]; then
     echo -e "$(cat ~/cimon/status/address.txt)" | mail -s "CIMON $(hostname): New Address" $(cat ~/cimon/.mailto)
     if [[ $? -eq 0 ]]; then
         echo "$(date) New address detected, sent mail"

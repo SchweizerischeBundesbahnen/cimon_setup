@@ -7,21 +7,23 @@ SendMailWithLogs() {
      fi
 }
 
-sudo service cimon status 1>/dev/null 2>&1
-if [[ $? -ne 0 ]]; then
-    SendMailWithLogs "Cimon controller not running"  "Cimon Controller on $(hostname) was not running at $(date), starting."
-    sudo service cimon start >> /var/log/cimon/cimon_stdouterr.log 2>&1
+if [[ -f ~/cimon/.autostart_controller ]] && [[ "$(cat ~/cimon/.autostart_controller)" == "true" ]]; then
+    sudo service cimon status 1>/dev/null 2>&1
     if [[ $? -ne 0 ]]; then
-        echo "$(date) Start cimon controller failed." >> /var/log/cimon/cimon_stdouterr.log
-        SendMailWithLogs  "Cimon controller start failed" "Cimon Controller on $(hostname) start failed at $(date)."
-    else
-        sleep 10 # make sure its started
-        sudo service cimon status 1>/dev/null 2>&1
+        SendMailWithLogs "Cimon controller not running"  "Cimon Controller on $(hostname) was not running at $(date), starting."
+        sudo service cimon start >> /var/log/cimon/cimon_stdouterr.log 2>&1
         if [[ $? -ne 0 ]]; then
-            echo "$(date) Cimon controller did not start." >> /var/log/cimon/cimon_stdouterr.log
-            SendMailWithLogs  "Cimon controller did not start" "Cimon Controller on $(hostname) did not start at $(date)."
+            echo "$(date) Start cimon controller failed." >> /var/log/cimon/cimon_stdouterr.log
+            SendMailWithLogs  "Cimon controller start failed" "Cimon Controller on $(hostname) start failed at $(date)."
         else
-            echo "$(date) Cimon controller started." >> /var/log/cimon/cimon_stdouterr.log
+            sleep 10 # make sure its started
+            sudo service cimon status 1>/dev/null 2>&1
+            if [[ $? -ne 0 ]]; then
+                echo "$(date) Cimon controller did not start." >> /var/log/cimon/cimon_stdouterr.log
+                SendMailWithLogs  "Cimon controller did not start" "Cimon Controller on $(hostname) did not start at $(date)."
+            else
+                echo "$(date) Cimon controller started." >> /var/log/cimon/cimon_stdouterr.log
+            fi
         fi
     fi
 fi

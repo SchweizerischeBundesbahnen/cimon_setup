@@ -2,7 +2,7 @@
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # configure email on the raspberry using ssmtp
 
-if [[ ! $1 || ! $2 || ! $3 ]]; then
+if [[ ! $1 ]] || [[ ! $2 ]] || [[ ! $3 ]]; then
     echo "2 parameters required: ssmtp.conf file with path, email sender and destination email address"
     exit 27
 fi

@@ -19,8 +19,10 @@ if [[ ! -f /opt/cimon/controller/.version || $(cat /opt/cimon/controller/.versio
     # write version file
     git rev-parse HEAD > /opt/cimon/controller/.version
     echo "$(date) installed new version $(git rev-parse HEAD) to /opt/cimon/controller"
-    sudo service cimon restart
-    echo "$(date) restarted service"
+    if [[ -f ~/cimon/.autostart_controller ]] && [[ "$(cat ~/cimon/.autostart_controller)" == "true" ]]; then
+        sudo service cimon restart
+        echo "$(date) restarted service"
+    fi
 else
     echo "$(date) no new version of cimon_controller found."
 fi

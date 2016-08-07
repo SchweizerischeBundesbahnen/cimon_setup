@@ -32,7 +32,7 @@ UpdateIfChanged() {
 
 # update_config and restart service only if remote files are newer and different
 # first the config file - check first, copy only if it is OK
-/usr/bin/python3 /opt/cimon/controller/cimon.py --validate --config $REMOTE_DIR/cimon.yaml
+/usr/bin/python3 /opt/cimon/controller/cimon.py --validate --config $REMOTE_DIR/cimon.yaml > /dev/null
 if [[ $? -ne 0 ]]; then
     echo "$(date) Invalid configuration $REMOTE_DIR/cimon.yaml or failed to validate configuration"
     exit 33
@@ -49,9 +49,10 @@ for REMOTE_PLUGIN in $REMOTE_DIR/plugins/*.py; do
         RESTART=1
     fi
 done
+shopt -u nullglob
 
 # if something was changed restart
-if [[ $RESTART -eq 1 ]]; then
+if [[ $RESTART -eq 1 ]] && [[ -f ~/cimon/.autostart_controller ]] && [[ "$(cat ~/cimon/.autostart_controller)" == "true" ]]; then
    sudo service cimon restart  1>/dev/null 2>&1
    echo "$(date) restarted service"
 fi
