@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# Setup the Rasberry and the scripts
-#
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 
 CheckReturncode() {
     RC=$?
