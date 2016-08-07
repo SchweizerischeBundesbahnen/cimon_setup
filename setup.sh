@@ -28,6 +28,7 @@ SETUPDIR=$(dirname $(readlink -f $0))
 USAGE="Usage: -n <hostname> [-p <password>]  [-k <keyfile>] [-s <ssmtp.conf file>] [-e <email sender>] [-t <send monitoring email to address>] [-g <config github_url>] [-b branch] [-f] [-c] [-w] [-h]"
 FREESBB='false'
 WEB='false'
+CONTROLLER='false'
 BRANCH="master"
 
 while getopts ":n:p:k:s:e:t:g:fcwb:h" flag; do
