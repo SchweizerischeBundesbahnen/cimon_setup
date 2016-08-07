@@ -9,7 +9,7 @@ cd /tmp/cimon_Fgithub/cimon_web
 
 mkdir -p /opt/cimon/web
 
-if [[ ! -f /opt/cimon/web/.version || $(cat /opt/cimon/web/.version) != $(git rev-parse HEAD) ]]; then
+if [[ ! -f /opt/cimon/web/.version ]] || [[ $(cat /opt/cimon/web/.version) != $(git rev-parse HEAD) ]]; then
     mkdir -p /opt/cimon/web/html
     rm -rf /opt/cimon/web/html/*
     cp -rf src/page/* /opt/cimon/web/html/

@@ -2,7 +2,5 @@
 # cimon, SBB, FSe 2016
 # all 5 minutes start cimon controller if not running
 */5 * * * * pi /opt/cimon/watchdog/watchdog.sh > /dev/null 2>&1
-# daily at 03:42 in the night restart the cimon controller
-42 3 * * * root service cimon restart > /dev/null 2>&1
-# all 5 minutes start cimon controller if not running
-03 3 * * 6 root reboot
+# reboot cimon box every sunday at 3:42 at night
+42 3 * * 6 root reboot

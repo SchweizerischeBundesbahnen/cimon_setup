@@ -14,7 +14,7 @@ if [[ $? -ne 0 ]]; then
 fi
 
 # if no version file (for instance new installation) or version has changed
-if [[ ! -f /opt/cimon/update_config/.version || $(cat /opt/cimon/update_config/.version) != $(git rev-parse HEAD) ]]; then
+if [[ ! -f /opt/cimon/update_config/.version ]] || [[ $(cat /opt/cimon/update_config/.version) != $(git rev-parse HEAD) ]]; then
     SETUPDIR=$(dirname $(readlink -f $0))
     mkdir -p /opt/cimon/update_config
     cp -f $SETUPDIR/update_config.sh /opt/cimon/update_config/update_config.sh

@@ -25,12 +25,12 @@ pushd .
 
 SETUPDIR=$(dirname $(readlink -f $0))
 
-USAGE="Usage: -n <hostname> [-p <password>]  [-k <keyfile>] [-s <ssmtp.conf file>] [-e <email sender>] [-t <send monitoring email to address>] [-g <config github_url>] [-b branch] [-f] [-w] [-h]"
+USAGE="Usage: -n <hostname> [-p <password>]  [-k <keyfile>] [-s <ssmtp.conf file>] [-e <email sender>] [-t <send monitoring email to address>] [-g <config github_url>] [-b branch] [-f] [-c] [-w] [-h]"
 FREESBB='false'
 WEB='false'
 BRANCH="master"
 
-while getopts ":n:p:k:s:e:t:g:fwb:h" flag; do
+while getopts ":n:p:k:s:e:t:g:fcwb:h" flag; do
   case "${flag}" in
     n) NAME="${OPTARG}" ;;
     p) PASSWD="${OPTARG}" ;;
@@ -39,6 +39,7 @@ while getopts ":n:p:k:s:e:t:g:fwb:h" flag; do
     e) EMAIL_SENDER="${OPTARG}" ;;
     t) EMAIL_TO="${OPTARG}" ;;
     g) GITHUB_URL="${OPTARG}" ;;
+    c) CONTROLLER='true' ;;
     w) WEB='true' ;;
     f) FREESBB='true' ;;
     b) BRANCH=${OPTARG} ;;
@@ -47,7 +48,7 @@ while getopts ":n:p:k:s:e:t:g:fwb:h" flag; do
   esac
 done
 
-if [[ ! $EMAIL_TO && $EMAIL_SENDER ]]; then
+if [[ ! $EMAIL_TO ]] && [[ $EMAIL_SENDER ]]; then
     EMAIL_TO=$EMAIL_SENDER
 fi
 
@@ -59,7 +60,8 @@ echo "Email Sender: $EMAIL_SENDER"
 echo "Email To: $EMAIL_TO"
 echo "Branch: $BRANCH"
 echo "Freesbb: $FREESBB"
-echo "Web: $WEB"
+echo "Controller Autostart: $CONTROLLER"
+echo "Web Autostart: $WEB"
 echo "Update config via Github url: $GITHUB_URL"
 echo "Setupdir: $SETUPDIR"
 
@@ -68,7 +70,7 @@ if [[ ! $NAME ]]; then
     exit 43
 fi
 
-if [[ ! $SSMTP_CONF && $EMAIL_SENDER ]]; then
+if [[ ! $SSMTP_CONF ]] && [[ $EMAIL_SENDER ]]; then
     echo "Missing parameter -s <ssmtp conf file> required if -e <email sender> is set, usage: $USAGE"
     exit 44
 fi
@@ -106,21 +108,25 @@ if [[ $SSMTP_CONF ]]; then
     CheckReturncode
 fi
 
+echo "$CONTROLLER" > ~/cimon/.autostart_controller
+
+echo "Setup controller..."
 bash $SETUPDIR/setup_controller.sh
 CheckReturncode
 
+echo "Setup autoupdate..."
 bash $SETUPDIR/setup_autoupdate.sh
 CheckReturncode
 
 # install web page
-if [[ "$WEB" == "true" ]]; then
-    echo "Setup web..."
-    bash $SETUPDIR/setup_web.sh
-    CheckReturncode
-fi
+echo "Setup web..."
+echo "$WEB" > ~/cimon/.autostart_web
+bash $SETUPDIR/setup_web.sh
+CheckReturncode
+
 
 # free sbb if not allready installed
-if [[ "$FREESBB" == "true" && ! -d /opt/cimon/freesbb ]]; then
+if [[ "$FREESBB" == "true" ]] && [[ ! -d /opt/cimon/freesbb ]]; then
     echo "Setup free sbb..."
     bash $SETUPDIR/setup_freesbb.sh
     CheckReturncode

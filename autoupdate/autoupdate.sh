@@ -13,7 +13,11 @@ if [[ $RC -eq 0 ]]; then
     RC=$?
 fi
 # send an email in case the autoupdate failed (if email is configured)
-if [[ -f ~/cimon/.mailto && $RC -ne 0 ]]; then
-    echo "$(tail -99l /var/log/cimon/autoupdate_cimon.log)" | mail -s "CIMON $(hostname): Autoupdate failed" $(cat ~/cimon/.mailto)
+if [[ -f ~/cimon/.mailto ]]; then
+    if [[ $RC -eq 0 ]]; then
+        echo "Autoupdated $(hostname) sucessfully at $(date)" | mail -s "CIMON $(hostname): Autoupdate OK" $(cat ~/cimon/.mailto)
+    else
+        echo -e "Autoupdate $(hostname) failed at at $(date)\n\n $(tail -99l /var/log/cimon/autoupdate_cimon.log)" | mail -s "CIMON $(hostname): Autoupdate failed" $(cat ~/cimon/.mailto)
+    fi
 fi
 

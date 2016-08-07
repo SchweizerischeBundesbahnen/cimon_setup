@@ -65,7 +65,7 @@ if [ ! -d $WORKSPACE/.git ]; then
         CheckReturncode del
     fi
 else
-    echo "$repo is checked out in $WORKSPACE, pulling"
+    echo "$(date) $repo is checked out in $WORKSPACE, pulling"
     cd $WORKSPACE
     git checkout $BRANCH 1>/dev/null
     CheckReturncode del
@@ -82,7 +82,7 @@ fi
 # now start the actual update process
 $MYDIR/copy_restart_if_changed.sh $WORKSPACE/config
 RC=$?
-if [[ $RC -eq 0 || $RC -eq 1 ]]; then
+if [[ $RC -eq 0 ]] || [[ $RC -eq 1 ]]; then
     RESTARTED=$RC
 else
     SendMail "Failed to udpate configuration" "Configuration was propably invalid ($RC), log:\n\n-----cimon.log-----\n$(tail -99l /var/log/cimon/cimon.log)\n\n-----cimon_stdouterr.log-----\n$(tail -29l /var/log/cimon/cimon_stdouterr.log)"
