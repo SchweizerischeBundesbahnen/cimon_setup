@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 
-SETUPDIR=$(dirname $(readlink -f $0))/freesbb
+SETUPDIR=$(dirname $(readlink -f $0))
 
 echo "$(date) Starting setup web..."
 

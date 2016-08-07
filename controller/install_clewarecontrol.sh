@@ -4,7 +4,7 @@
 # https://www.vanheusden.com/clewarecontrol/
 SETUPDIR=$(dirname $(readlink -f $0))
 pushd .
-which clewarecontrol
+which clewarecontrol  1>/dev/null 2>&1
 if [[ $? -ne 0 ]]; then
     # Vorraussetzung: libhidapi-dev
     sudo apt-get -y install libhidapi-dev
