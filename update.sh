@@ -31,6 +31,10 @@ if [[ -d /opt/cimon/web ]]; then
     CheckReturncode
 fi
 
+# update the monitoring
+bash $SETUPDIR/monitoring/update_monitoring.sh
+CheckReturncode
+
 # update the start/stop script and watchdog script of the controller
 bash $SETUPDIR/controller/update_start_stop_watchdog.sh
 CheckReturncode
