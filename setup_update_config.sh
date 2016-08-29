@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
-# configure the update_config mechanism via mydrive
+# configure the update_config mechanism via github
 
 CheckReturncode() {
     RC=$?

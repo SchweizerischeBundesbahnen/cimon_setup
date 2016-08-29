@@ -1,0 +1,6 @@
+# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
+# cimon, SBB, FSe 2016
+# send mail if the address has changed
+*/12 * * * * pi /opt/cimon/monitoring/mail_address.sh > /var/log/cimon/mail_address.log 2>&1
+# once a day check for disk space at 3:30
+30 3 * * * pi /opt/cimon/monitoring/mail_disk_full.sh > /var/log/cimon/mail_disk_full.log 2>&1
