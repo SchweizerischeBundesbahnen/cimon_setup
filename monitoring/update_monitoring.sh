@@ -10,7 +10,7 @@ cd $SETUPDIR
 git rev-parse --is-inside-work-tree  1>/dev/null 2>&1
 if [[ $? -ne 0 ]]; then
     echo "Not in a git repository dir $(pwd)"
-    exit 82
+    exit 87
 fi
 
 # if no version file (for instance new installation) or version has changed
