@@ -4,3 +4,5 @@
 */12 * * * * pi /opt/cimon/monitoring/mail_address.sh > /var/log/cimon/mail_address.log 2>&1
 # once a day check for disk space at 3:30
 30 3 * * * pi /opt/cimon/monitoring/mail_disk_full.sh > /var/log/cimon/mail_disk_full.log 2>&1
+# once a week on monday 4:30 send an update on the current health state
+30 4 * * 1 pi /opt/cimon/monitoring/mail_health.sh > /var/log/cimon/mail_health.log 2>&1

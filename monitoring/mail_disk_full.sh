@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright (C) Schweizerische Bundesbahnen SBB, 2016
+# taken from http://www.cyberciti.biz/tips/shell-script-to-watch-the-disk-space.html
 # send an mail if there is more than 90% of the disk space is full
 
 df -H | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $5 " " $1 }' | while read output;
