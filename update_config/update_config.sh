@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
-# update_config the remote configuration
+# monitoring the remote configuration
 
 HN=$(hostname)
 BRANCH=config/$HN
@@ -24,7 +24,7 @@ CheckReturncode() {
             echo "$(date) Deleting workspace in case there is an issue"
             rm -rf $WORKSPACE 1>/dev/null 2>&1
         fi
-        SendMail "Config Update Failed" "$(tail -99l /var/log/cimon/update_config.log)"
+        SendMail "Config Update Failed" "$(tail -99l /var/log/cimon/monitoring.log)"
         exit $RC
     fi
 }

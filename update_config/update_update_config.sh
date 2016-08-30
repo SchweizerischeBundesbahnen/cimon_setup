@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
-# install the update_config scripts
+# install the monitoring scripts
 SETUPDIR=$(dirname $(readlink -f $0))
 
 pushd .
@@ -19,8 +19,6 @@ if [[ ! -f /opt/cimon/update_config/.version ]] || [[ $(cat /opt/cimon/update_co
     mkdir -p /opt/cimon/update_config
     cp -f $SETUPDIR/update_config.sh /opt/cimon/update_config/update_config.sh
     cp -f $SETUPDIR/copy_restart_if_changed.sh /opt/cimon/update_config/copy_restart_if_changed.sh
-    cp -f $SETUPDIR/dump_addresses.sh /opt/cimon/update_config/dump_addresses.sh
-    cp -f $SETUPDIR/mail_address.sh /opt/cimon/update_config/mail_address.sh
     chmod a+rx /opt/cimon/update_config/*.sh
     sudo cp -f $SETUPDIR/cron.d/update_config /etc/cron.d/update_config
     sudo chmod g-x,o-x /etc/cron.d/update_config

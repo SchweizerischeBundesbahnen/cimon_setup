@@ -144,6 +144,10 @@ else
     echo "Update config via github not configured"
 fi
 
+echo "Setup monitoring..."
+bash $SETUPDIR/setup_monitoring.sh
+CheckReturncode
+
 if [[ $PASSWD ]]; then
     echo "Chaning password..."
     echo pi:$PASSWD | sudo chpasswd

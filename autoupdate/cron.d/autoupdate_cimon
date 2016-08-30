@@ -1,4 +1,4 @@
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # cimon, SBB, FSe 2016
 # daily at 1:42 check for updates of the cimon controller and setup
-42 1 * * * pi /opt/cimon/autoupdate/autoupdate.sh >> /var/log/cimon/autoupdate_cimon.log 2>&1
+42 1 * * * pi /opt/cimon/autoupdate/autoupdate.sh > /var/log/cimon/autoupdate_cimon.log 2>&1

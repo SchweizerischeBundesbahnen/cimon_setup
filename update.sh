@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
-# update_config cimon, do not update_config configuration
+# monitoring cimon, do not monitoring configuration
 
 SETUPDIR=$(dirname $(readlink -f $0))
 
@@ -30,6 +30,10 @@ if [[ -d /opt/cimon/web ]]; then
     bash $SETUPDIR/web/update_web.sh
     CheckReturncode
 fi
+
+# update the monitoring
+bash $SETUPDIR/monitoring/update_monitoring.sh
+CheckReturncode
 
 # update the start/stop script and watchdog script of the controller
 bash $SETUPDIR/controller/update_start_stop_watchdog.sh
