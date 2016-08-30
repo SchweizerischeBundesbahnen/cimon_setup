@@ -7,6 +7,11 @@ SendMailWithLogs() {
      fi
 }
 
+if [[ -f /var/log/cimon/cimon_stdouterr.log ]]; then
+    # may belong to root, therefore secure write rights
+    sudo chmod a+rw /var/log/cimon/cimon_stdouterr.log
+fi
+
 if [[ -f ~/cimon/.autostart_controller ]] && [[ "$(cat ~/cimon/.autostart_controller)" == "true" ]]; then
     sudo service cimon status 1>/dev/null 2>&1
     if [[ $? -ne 0 ]]; then

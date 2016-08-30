@@ -22,10 +22,10 @@ UpdateIfChanged() {
     fi
     cmp --silent $REMOTE $LOCAL 2>&1 1>/dev/null
     if [[ $? -ne 0 ]]; then
-       echo "$(date) Copying $REMOTE to $LOCAL"
+       echo "$(date) Change detected, copying $REMOTE to $LOCAL"
        cp -f $REMOTE $LOCAL 1>/dev/null 2>&1
        if [[ $? -ne 0 ]]; then
-            echo "$(date) copy of $REMOTE to $LOCAL failed"
+            echo "$(date) Copy of $REMOTE to $LOCAL failed"
             exit 11
        fi
        return 1
