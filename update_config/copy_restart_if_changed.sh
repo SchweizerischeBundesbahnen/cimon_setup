@@ -38,6 +38,9 @@ UpdateIfChanged() {
 # update the python plugin scripts
 shopt -s nullglob # make sure the for loop works, else if nothing is found the search string is returned as such
 for REMOTE_PLUGIN in $REMOTE_DIR/plugins/*.py; do
+    if [[ ! -d /opt/cimon/plugins ]]; then
+        mkdir -p /opt/cimon/plugins
+    fi
     UpdateIfChanged $REMOTE_PLUGIN ~/cimon/plugins/$(basename $REMOTE_PLUGIN) 1
     if [[ $? -eq 1 ]]; then
         RESTART=1
