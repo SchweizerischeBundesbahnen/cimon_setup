@@ -34,7 +34,18 @@ UpdateIfChanged() {
 }
 
 # update_config and restart service only if remote files are newer and different
-# first the config file - check first, copy only if it is OK
+
+# update the python plugin scripts
+shopt -s nullglob # make sure the for loop works, else if nothing is found the search string is returned as such
+for REMOTE_PLUGIN in $REMOTE_DIR/plugins/*.py; do
+    UpdateIfChanged $REMOTE_PLUGIN ~/cimon/plugins/$(basename $REMOTE_PLUGIN) 1
+    if [[ $? -eq 1 ]]; then
+        RESTART=1
+    fi
+done
+shopt -u nullglob
+
+# then the config file - check first, copy only if it is OK
 /usr/bin/python3 /opt/cimon/controller/cimon.py --validate --config $REMOTE_DIR/cimon.yaml > /dev/null
 if [[ $? -ne 0 ]]; then
     echo "$(date) Invalid configuration $REMOTE_DIR/cimon.yaml or failed to validate configuration"
@@ -43,16 +54,6 @@ fi
 UpdateIfChanged $REMOTE_DIR/cimon.yaml ~/cimon/cimon.yaml 1
 RESTART=$?
 
-# make sure the for loop works, else if nothing is found the search string is returned as such
-shopt -s nullglob
-# then the python plugin scripts
-for REMOTE_PLUGIN in $REMOTE_DIR/plugins/*.py; do
-    UpdateIfChanged $REMOTE_PLUGIN ~/cimon/plugins/$(basename $REMOTE_PLUGIN) 1
-    if [[ $? -eq 1 ]]; then
-        RESTART=1
-    fi
-done
-shopt -u nullglob
 
 # update the script configuration files if changed
 UpdateIfChanged $REMOTE_DIR/.autostart_controller ~/cimon/.autostart_controller 0
