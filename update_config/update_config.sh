@@ -85,7 +85,7 @@ RC=$?
 if [[ $RC -eq 0 ]] || [[ $RC -eq 1 ]]; then
     RESTARTED=$RC
 else
-    SendMail "Failed to udpate configuration" "Configuration was propably invalid ($RC), log:\n\n-----update_config.log-----\n$(tail -99l /var/log/cimon/udpate_config.log)"
+    SendMail "Failed to udpate configuration" "Configuration was propably invalid ($RC), log:\n\n-----update_config.log-----\n$(tail -99l /var/log/cimon/update_config.log)"
     exit $RC
 fi
 
