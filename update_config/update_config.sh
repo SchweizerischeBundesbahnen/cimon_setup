@@ -24,7 +24,7 @@ CheckReturncode() {
             echo "$(date) Deleting workspace in case there is an issue"
             rm -rf $WORKSPACE 1>/dev/null 2>&1
         fi
-        SendMail "Config Update Failed" "$(tail -99l /var/log/cimon/monitoring.log)"
+        SendMail "Config Update Failed" "$(tail -99l /var/log/cimon/update_config.log)"
         exit $RC
     fi
 }

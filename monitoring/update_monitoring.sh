@@ -20,6 +20,7 @@ if [[ ! -f /opt/cimon/monitoring/.version ]] || [[ $(cat /opt/cimon/monitoring/.
     cp -f $SETUPDIR/dump_addresses.sh /opt/cimon/monitoring/dump_addresses.sh
     cp -f $SETUPDIR/mail_address.sh /opt/cimon/monitoring/mail_address.sh
     cp -f $SETUPDIR/mail_disk_full.sh /opt/cimon/monitoring/mail_disk_full.sh
+    cp -f $SETUPDIR/mail_health.sh /opt/cimon/monitoring/mail_health.sh
     chmod a+rx /opt/cimon/monitoring/*.sh
     sudo cp -f $SETUPDIR/cron.d/monitoring /etc/cron.d/monitoring
     sudo chmod g-x,o-x /etc/cron.d/monitoring
