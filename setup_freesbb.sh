@@ -24,13 +24,8 @@ sudo ifup wlan0 > /dev/null 2>&1
 sudo service networking restart
 echo "$(date) Wlan0 and service networking restarted"
 
-echo "$(date) Installing the freesbb script and chronjob..."
-# script to click the accept (gratis ins internet) button
-mkdir -p /opt/cimon/freesbb
-cp $SETUPDIR/src/*.py /opt/cimon/freesbb/
-sudo cp $SETUPDIR/cron.d/freesbb /etc/cron.d/freesbb
-sudo chmod g-x,o-x /etc/cron.d/freesbb
-echo "$(date) Freesbb script and chronjob installed"
+# install the script and cronjob
+bash $SETUPDIR/update_freesbb.sh
 
 echo "$(date) Running the freesbb script after 10 seconds rest..."
 sleep 10

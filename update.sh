@@ -43,4 +43,8 @@ CheckReturncode
 bash $SETUPDIR/controller/update_controller.sh
 CheckReturncode
 
+# update the freesbb
+bash $SETUPDIR/freesbb/update_freesbb.sh
+CheckReturncode
+
 echo "$(date) Update terminated OK"
