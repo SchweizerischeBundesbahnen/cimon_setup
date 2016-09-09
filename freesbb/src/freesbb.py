@@ -33,7 +33,4 @@ opener.open("http://www.search.ch")
 if freesbb_redirect_url and "welcome_back" in freesbb_redirect_url:
     req = request.Request(str(freesbb_redirect_url), data=None, headers={}, method="POST")
     opener.open(req)
-elif freesbb_redirect_url:
-    # other, most propably the new registration via Phone. Open browser to show
-    system("chromium-browser %s &" % (freesbb_redirect_url, ))
 
