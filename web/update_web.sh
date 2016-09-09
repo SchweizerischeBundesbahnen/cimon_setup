@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 
+SETUPDIR=$(dirname $(readlink -f $0))
+
 pushd .
 
 bash $SETUPDIR/../autoupdate/clone_or_pull_github.sh /tmp/cimon_github cimon_web
 
-cd /tmp/cimon_Fgithub/cimon_web
+cd /tmp/cimon_github/cimon_web
 
 mkdir -p /opt/cimon/web
 
