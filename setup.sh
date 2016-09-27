@@ -62,7 +62,7 @@ echo "Email To: $EMAIL_TO"
 echo "Branch: $BRANCH"
 echo "Freesbb: $FREESBB"
 echo "Controller Autostart: $CONTROLLER"
-echo "Web Autostart: $WEB"
+echo "Web Browser Autostart: $WEB"
 echo "Update config via Github url: $GITHUB_URL"
 echo "Setupdir: $SETUPDIR"
 
@@ -121,7 +121,7 @@ CheckReturncode
 
 # install web page
 echo "Setup web..."
-echo "$WEB" > ~/cimon/.autostart_web
+echo "$WEB" > ~/cimon/.autostart_browser
 bash $SETUPDIR/setup_web.sh
 CheckReturncode
 

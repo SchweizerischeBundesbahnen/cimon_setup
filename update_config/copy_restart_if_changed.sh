@@ -60,7 +60,7 @@ RESTART=$?
 
 # update the script configuration files if changed
 UpdateIfChanged $REMOTE_DIR/.autostart_controller ~/cimon/.autostart_controller 0
-UpdateIfChanged $REMOTE_DIR/.autostart_web ~/cimon/.autostart_web 0
+UpdateIfChanged $REMOTE_DIR/.autostart_browser ~/cimon/.autostart_browser 0
 UpdateIfChanged $REMOTE_DIR/.mailto ~/cimon/.mailto 0
 UpdateIfChanged $REMOTE_DIR/.git_branch ~/cimon/.git_branch 0
 

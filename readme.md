@@ -1,4 +1,4 @@
-# Cimon scripts
+f# Cimon scripts
 Copyright (C) Schweizerische Bundesbahnen SBB 2016, Apache Licence 2.0. Author: Florian Seidl (Github: florianseidl) 
 
 Setup the cimon device, start/stop scripts, auto update and so on. Tested on Raspberry Pi 3.

@@ -15,7 +15,6 @@ fi
 
 # if no version file (for instance new installation) or version has changed
 if [[ ! -f /opt/cimon/monitoring/.version ]] || [[ $(cat /opt/cimon/monitoring/.version) != $(git rev-parse HEAD) ]]; then
-    SETUPDIR=$(dirname $(readlink -f $0))
     mkdir -p /opt/cimon/monitoring
     cp -f $SETUPDIR/dump_addresses.sh /opt/cimon/monitoring/dump_addresses.sh
     cp -f $SETUPDIR/mail_address.sh /opt/cimon/monitoring/mail_address.sh
