@@ -33,4 +33,3 @@ opener.open("http://neverssl.com")
 if freesbb_redirect_url and "welcome_back" in freesbb_redirect_url:
     req = request.Request(str(freesbb_redirect_url), data=None, headers={}, method="POST")
     opener.open(req)
-
