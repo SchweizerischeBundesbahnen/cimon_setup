@@ -13,4 +13,12 @@ if [[ $RC -ne 0 ]]; then
     echo "Error installing web $RC"
     exit $RC
 fi
+
+bash $SETUPDIR/web/udpate_start_web_browser.sh
+RC=$?
+if [[ $RC -ne 0 ]]; then
+    echo "Error installing web browser start script $RC"
+    exit $RC
+fi
+
 echo "$(date) Setup web terminated OK"

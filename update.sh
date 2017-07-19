@@ -31,6 +31,9 @@ if [[ -d /opt/cimon/web ]]; then
     CheckReturncode
 fi
 
+bash $SETUPDIR/web/update_start_web_browser.sh
+CheckReturncode
+
 # update the monitoring
 bash $SETUPDIR/monitoring/update_monitoring.sh
 CheckReturncode

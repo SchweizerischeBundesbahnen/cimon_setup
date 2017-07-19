@@ -27,10 +27,9 @@ freesbb_redirect_url = None
 # request to see if we get redirected (if not all is fine)
 # using search.ch because it is relatively fast and not https like google (no certificate issues)
 # ignoring the result - anything but a 2xx or redirect will lead to an exception
-opener.open("http://www.search.ch")
+opener.open("http://neverssl.com")
 
 # if it is welcome_back we can "click the button"
 if freesbb_redirect_url and "welcome_back" in freesbb_redirect_url:
     req = request.Request(str(freesbb_redirect_url), data=None, headers={}, method="POST")
     opener.open(req)
-
