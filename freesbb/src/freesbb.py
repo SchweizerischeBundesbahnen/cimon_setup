@@ -29,7 +29,7 @@ freesbb_redirect_url = None
 # ignoring the result - anything but a 2xx or redirect will lead to an exception
 opener.open("http://neverssl.com")
 # some freesbb require an accept language header...
-opener.addheaders = [('Accept-Language', 'de-CH,de;q=0.8,de-AT;q=0.6,de-DE;q=0.4,en-GB;q=0.2,en;q=0.2,en-US;q=0.2')]
+opener.addheaders.append(('Accept-Language', 'de-CH,de;q=0.8,de-AT;q=0.6,de-DE;q=0.4,en-GB;q=0.2,en;q=0.2,en-US;q=0.2'))
 
 # if it is welcome_back we can "click the button"
 if freesbb_redirect_url and "welcome_back" in freesbb_redirect_url:
