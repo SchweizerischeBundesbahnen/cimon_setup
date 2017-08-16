@@ -19,7 +19,8 @@ sudo ln -s  /etc/apache2/sites-available/007-cimon.conf /etc/apache2/sites-enabl
 
 sudo service apache2 restart
 
-bash $SETUPDIR/update_web.sh
+# disable web installation as it is broken for now
+#bash $SETUPDIR/update_web.sh
 
 echo "Installed cimon web component"
 
