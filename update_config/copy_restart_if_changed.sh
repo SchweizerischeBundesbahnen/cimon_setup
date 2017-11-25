@@ -48,6 +48,20 @@ for REMOTE_PLUGIN in $REMOTE_DIR/plugins/*.py; do
 done
 shopt -u nullglob
 
+# client certificates
+for CRT in $REMOTE_DIR/*.crt; do
+    UpdateIfChanged $REMOTE_DIR/$CRT ~/cimon/$CRT 1
+    if [[ $? -eq 1 ]]; then
+        RESTART=1
+    fi
+done
+for KEY in $REMOTE_DIR/*.key; do
+    UpdateIfChanged $REMOTE_DIR/$KEY ~/cimon/$KEY 1
+    if [[ $? -eq 1 ]]; then
+        RESTART=1
+    fi
+done
+
 # then the config file - check first, copy only if it is OK
 /usr/bin/python3 /opt/cimon/controller/cimon.py --validate --config $REMOTE_DIR/cimon.yaml > /dev/null
 if [[ $? -ne 0 ]]; then
