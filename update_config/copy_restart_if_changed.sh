@@ -61,13 +61,13 @@ fi
 
 # client certificates
 for CRT in $REMOTE_DIR/*.crt; do
-    UpdateIfChanged $REMOTE_DIR/$CRT ~/cimon/$CRT 1
+    UpdateIfChanged $CRT ~/cimon/$(basename $CRT) 1
     if [[ $? -eq 1 ]]; then
         RESTART=1
     fi
 done
 for KEY in $REMOTE_DIR/*.key; do
-    UpdateIfChanged $REMOTE_DIR/$KEY ~/cimon/$KEY 1
+    UpdateIfChanged $KEY ~/cimon/$(basename $KEY) 1
     if [[ $? -eq 1 ]]; then
         RESTART=1
     fi
