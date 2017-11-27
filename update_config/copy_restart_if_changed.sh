@@ -48,6 +48,17 @@ for REMOTE_PLUGIN in $REMOTE_DIR/plugins/*.py; do
 done
 shopt -u nullglob
 
+# check the checked out config first copy only if it is OK
+pushd .
+cd $REMOTE_DIR
+/usr/bin/python3 /opt/cimon/controller/cimon.py --validate > /dev/null
+RC=$?
+popd
+if [[ $RC -ne 0 ]]; then
+    echo "$(date) Invalid configuration $REMOTE_DIR/cimon.yaml or failed to validate configuration"
+    exit 33
+fi
+
 # client certificates
 for CRT in $REMOTE_DIR/*.crt; do
     UpdateIfChanged $REMOTE_DIR/$CRT ~/cimon/$CRT 1
@@ -62,15 +73,9 @@ for KEY in $REMOTE_DIR/*.key; do
     fi
 done
 
-# then the config file - check first, copy only if it is OK
-/usr/bin/python3 /opt/cimon/controller/cimon.py --validate --config $REMOTE_DIR/cimon.yaml > /dev/null
-if [[ $? -ne 0 ]]; then
-    echo "$(date) Invalid configuration $REMOTE_DIR/cimon.yaml or failed to validate configuration"
-    exit 33
-fi
+# then the config file
 UpdateIfChanged $REMOTE_DIR/cimon.yaml ~/cimon/cimon.yaml 1
 RESTART=$?
-
 
 # update the script configuration files if changed
 UpdateIfChanged $REMOTE_DIR/.autostart_controller ~/cimon/.autostart_controller 0
