@@ -60,16 +60,12 @@ if [[ $RC -ne 0 ]]; then
 fi
 
 # client certificates
-for CRT in $REMOTE_DIR/*.crt; do
-    UpdateIfChanged $CRT ~/cimon/$(basename $CRT) 1
-    if [[ $? -eq 1 ]]; then
-        RESTART=1
-    fi
-done
-for KEY in $REMOTE_DIR/*.key; do
-    UpdateIfChanged $KEY ~/cimon/$(basename $KEY) 1
-    if [[ $? -eq 1 ]]; then
-        RESTART=1
+for CERT_OR_KEY in $REMOTE_DIR/*.{crt,key}; do
+    if [[ -f $CERT_OR_KEY ]]; then
+        UpdateIfChanged $CERT_OR_KEY ~/cimon/$(basename $CERT_OR_KEY) 1
+        if [[ $? -eq 1 ]]; then
+            RESTART=1
+        fi
     fi
 done
 
