@@ -16,6 +16,7 @@ if [[ $? -ne 0 ]]; then
     wget --content-disposition 'https://sourceforge.net/projects/sispmctl/files/latest/download?source=typ_redirect'
     # make sispmclt
     tar xzvf sispmctl-*.tar.gz
+    rm -f sispmctl-*.tar.gz
     cd sispmctl-*
     ./configure
     make > /dev/null
