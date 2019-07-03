@@ -6,6 +6,7 @@ SETUPDIR=$(dirname $(readlink -f $0))
 #PyYaml: https://pypi.python.org/pypi/PyYAML
 sudo apt-get install python3-yaml
 sudo pip3 install pyaes
+sudo pip3 install phue
 # Cimon controller scripts
 # verwenden Python3 (vorinstalliert)
 # start-stopscript installieren
