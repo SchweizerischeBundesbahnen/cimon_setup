@@ -35,9 +35,11 @@ fi
 bash $SETUPDIR/web/update_start_web_browser.sh
 CheckReturncode
 
-# update the monitoring
-bash $SETUPDIR/monitoring/update_monitoring.sh
-CheckReturncode
+# update the monitoring (only on jessy, on newer raspbian systemd does that)
+if [ "$(cat /etc/os-release | grep jessy)" != "" ]; then
+    bash $SETUPDIR/monitoring/update_monitoring.sh
+    CheckReturncode
+fi
 
 # update the start/stop script and watchdog script of the controller
 bash $SETUPDIR/controller/update_start_stop_watchdog.sh
