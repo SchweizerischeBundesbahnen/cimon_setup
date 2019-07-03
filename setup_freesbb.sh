@@ -22,20 +22,44 @@ echo "$(date) Network config files installed"
 
 echo "$(date) Restarting wlan0 and service networking..."
 # restart wlan
-sudo ifdown wlan0 > /dev/null 2>&1
-sudo ifup wlan0 > /dev/null 2>&1
+sleep 1
+sudo ifconfig wlan0 down > /dev/null 2>&1
+echo "$(date) wlan0 disabled"
+sleep 2
+sudo ifconfig wlan0 up > /dev/null 2>&1
+echo "$(date) wlan0 re-enabled"
+sleep 5
 # and restart networking just to be sure
 sudo service networking restart
+echo "$(date) networking restarted"
+sleep 5
+sudo ifconfig wlan0 down > /dev/null 2>&1
+echo "$(date) wlan0 disabled"
+sleep 2
+sudo ifconfig wlan0 up > /dev/null 2>&1
+echo "$(date) wlan0 reenabled"
+sleep 5
 echo "$(date) Wlan0 and service networking restarted"
 
 # install the script and cronjob
 bash $SETUPDIR/update_freesbb.sh
 
-echo "$(date) Running the freesbb script after 10 seconds rest..."
-sleep 10
+echo "$(date) Running the freesbb script after 30 seconds rest..."
+sleep 30
 # try connect to freesbb
 python3 /opt/cimon/freesbb/freesbb.py > /dev/null
-echo "$(date) Freesbb script run, result is $?"
+if [[ $? -ne 0 ]]; then
+
+    echo "--------------------------------------------------------------------------------------------------------------"
+    echo "$(date) Freesbb script failed, result is $?"
+    echo "The most likely reason for this failure is that a reboot is needed to reconfigure the interfaces."
+    echo "--------------------------------------------------------------------------------------------------------------"
+
+    read -n1 -rsp $'Press enter to reboot or Ctrl+C to exit...\n'
+    sudo shutdown -r now
+else
+    echo "$(date) Freesbb script run, result is $?"
+fi
 
 echo "$(date) Setup freesbb terminated OK."
 # check it was installed
