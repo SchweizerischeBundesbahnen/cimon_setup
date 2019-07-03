@@ -12,7 +12,11 @@ echo "$(date) Cimon dir created"
 
 # free sbb wlan auto connect (use wpa supplicant in order to allow reconnect)
 echo "$(date) Installing network config files..."
-sudo cp $SETUPDIR/network/interfaces /etc/network/interfaces
+if [ "$(cat /etc/os-release | grep jessy)" != "" ]; then
+    sudo cp $SETUPDIR/network/interfaces_jessy /etc/network/interfaces
+else
+    sudo cp $SETUPDIR/network/interfaces /etc/network/interfaces
+fi
 sudo cp $SETUPDIR/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
 echo "$(date) Network config files installed"
 
