@@ -1,0 +1,12 @@
+[Unit]
+Description=cimon
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=30
+User=pi
+ExecStart=/usr/bin/python3 /opt/cimon/controller/cimon.py
+
+[Install]
+WantedBy=multi-user.target

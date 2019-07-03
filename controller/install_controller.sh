@@ -14,7 +14,11 @@ sudo mkdir -p /var/log/cimon
 sudo chmod a+rwx /var/log/cimon
 
 # install the start/stop scripts
-bash $SETUPDIR/update_start_stop_watchdog.sh
+if [ "$(cat /etc/os-release | grep jessy)" != "" ]; then
+    bash $SETUPDIR/update_start_stop_watchdog.sh
+else
+    sudo cp -f $SETUPDIR/systemd/cimon.service /etc/systemd/system/
+fi
 
 # install the python application
 bash $SETUPDIR/update_controller.sh
