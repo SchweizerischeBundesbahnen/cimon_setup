@@ -159,6 +159,11 @@ echo "Setting hostname..."
 sudo bash $SETUPDIR/set_hostname.sh $NAME >> /dev/null
 CheckReturncode
 
+
+echo "Adjusting SSL configuration..."
+sudo bash $SETUPDIR/patch_ssl_config.sh >> /dev/null
+CheckReturncode
+
 popd
 
 read -n1 -rsp $'Done, press any key to reboot or Ctrl+C to exit...\n'
