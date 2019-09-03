@@ -1,0 +1,26 @@
+This file outlines how a reverse tunnel could be setup for the cimon-pis.
+
+https://unix.stackexchange.com/questions/132326/initiate-ssh-connection-from-server-to-client
+https://www.micronbot.com/Raspberry-Pi/Pi-autossh.html
+https://issues.sbb.ch/browse/MWESERVICE-510112
+
+Requirements:
+- a machine with a public IP <public-ip> running ssh and a user <user> with root privileges
+- a separate port for each cimon-raspi
+- autossh must be installed on the cimon-raspi
+
+
+Manual start of tunnel on cimon-pi:
+$ ssh -N -R<port>:localhost:22 <user>@<public-ip>
+
+Connect to the cimon-pi from a shell on the public server:
+$ ssh -p 2222 pi@localhost
+
+
+
+Steps needed for automatic installation:
+- pass reverse tunnel port for this specific cimon as parameter to the installation (start.sh)
+- "apt-get install autossh"
+- distribute rsa private and public keys to cimon-pi (using the usb stick, like key.bin, so we do not need to commit them to github)
+- create auto-start configuration for auto ssh
+- create/extend ~/.ssh/config with necessary parameters (jumpserver + port)
