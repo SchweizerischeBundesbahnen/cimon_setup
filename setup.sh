@@ -155,16 +155,16 @@ if [[ $PASSWD ]]; then
     fi
 fi
 
-echo "Setting hostname..."
-sudo bash $SETUPDIR/set_hostname.sh $NAME >> /dev/null
-CheckReturncode
-
 echo "Adjusting SSL configuration..."
 sudo bash $SETUPDIR/patch_ssl_config.sh >> /dev/null
 CheckReturncode
 
 echo "Starting ssh daemon..."
 sudo bash $SETUPDIR/setup_ssh.sh >> /dev/null
+
+echo "Setting hostname..."
+sudo bash $SETUPDIR/set_hostname.sh $NAME >> /dev/null
+CheckReturncode
 
 popd
 
