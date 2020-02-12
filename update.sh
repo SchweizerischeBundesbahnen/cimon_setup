@@ -25,12 +25,8 @@ if [[ -d /opt/cimon/update_config ]]; then
     CheckReturncode
 fi
 
-# disabled for now as is broken and does not work anyway
-#if [[ -d /opt/cimon/web ]]; then
-    # update the webpage
-    #bash $SETUPDIR/web/update_web.sh
-    #CheckReturncode
-#fi
+bash $SETUPDIR/web/update_disable_screensleep.sh
+CheckReturncode
 
 bash $SETUPDIR/web/update_start_web_browser.sh
 CheckReturncode
