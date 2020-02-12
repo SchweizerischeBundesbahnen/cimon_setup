@@ -37,4 +37,10 @@ bash $SETUPDIR/controller/install_controller.sh
 CheckReturncode
 echo "$(date) Cimon controller installed"
 
+# Clewarecontrol - Steuerung USB Ampel
+echo "$(date) Installing hue..."
+bash $SETUPDIR/controller/install_hue.sh
+CheckReturncode
+echo "$(date) Hue installed"
+
 echo "$(date) Setup controller terminated OK"
