@@ -16,7 +16,6 @@ echo "$(date) Starting Setup freesbb..."
 
 echo "$(date) Creating the /opt/cimon dir if required..."
 bash $SETUPDIR/create_cimon_dir.sh
-CheckReturncode
 echo "$(date) Cimon dir created"
 
 # free sbb wlan auto connect (use wpa supplicant in order to allow reconnect)

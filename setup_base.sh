@@ -21,7 +21,7 @@ echo "$(date) Upgrading and installing packages..."
 # update package list and upgrade distribution, remove unused
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y update
 CheckReturncode
-sudo DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade
 CheckReturncode
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y autoremove
 # make sure python 3.4 is available
