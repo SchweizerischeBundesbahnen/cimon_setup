@@ -11,6 +11,11 @@ function TailLog(){
     fi
 }
 
+if ! [[ -f ~/cimon/.mailto ]]; then
+    echo "No mailto address defined"
+    exit 0
+fi
+
 TO=$(cat ~/cimon/.mailto)
 HOST=$(hostname)
 LOG=$(TailLog cimon.log 99)
