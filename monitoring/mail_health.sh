@@ -11,12 +11,8 @@ function TailLog(){
     fi
 }
 
-if ! [[ -f ~/cimon/.mailto ]]; then
-    echo "No mailto address defined"
-    exit 0
-fi
+MYDIR=$(dirname $(readlink -f $0))
 
-TO=$(cat ~/cimon/.mailto)
 HOST=$(hostname)
 LOG=$(TailLog cimon.log 99)
 STDOUTLOG=$(TailLog cimon_stdouterr.log 29)
@@ -25,4 +21,4 @@ AUTOUPDATELOG=$(TailLog autoupdate_cimon.log 29)
 DISKFULLLOG=$(TailLog mail_disk_full.log 19)
 MAILADRESSLOG=$(TailLog mail_address.log 19)
 
-echo -e "Current health state of cimon $HOST at $(date)\n\n-----cimon.log-----\n$LOG\n\n-----cimon_stdouterr.log-----\n$STDOUTLOG\n\n-----update_config.log-----\n$CONFIGLOG\n\n-----autoupdate_cimon.log-----\n$AUTOUPDATELOG\n\n-----mail_disk_full.log-----\n$DISKFULLLOG\n\n-----mail_address.log-----\n$MAILADRESSLOG" | mail -s "CIMON $HOST: Health state info" $TO
+echo -e "Current health state of cimon $HOST at $(date)\n\n-----cimon.log-----\n$LOG\n\n-----cimon_stdouterr.log-----\n$STDOUTLOG\n\n-----update_config.log-----\n$CONFIGLOG\n\n-----autoupdate_cimon.log-----\n$AUTOUPDATELOG\n\n-----mail_disk_full.log-----\n$DISKFULLLOG\n\n-----mail_address.log-----\n$MAILADRESSLOG" | bash $MYDIR/send_mail.sh "CIMON $HOST: Health state info"
