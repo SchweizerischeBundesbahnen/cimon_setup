@@ -8,7 +8,7 @@ mkdir -p ~/cimon/status
 bash $MYDIR/dump_addresses.sh ~/cimon/status
 NEWADDRESS=$?
 if [[ $NEWADDRESS -eq 1 ]] && [[ -f ~/cimon/.mailto ]]; then
-    echo -e "$(cat ~/cimon/status/address.txt)" | mail -s "CIMON $(hostname): New Address" $(cat ~/cimon/.mailto)
+    echo -e "$(cat ~/cimon/status/address.txt)" | bash $MYDIR/send_mail.sh "CIMON $(hostname): New Address"
     if [[ $? -eq 0 ]]; then
         echo "$(date) New address detected, sent mail"
     else
