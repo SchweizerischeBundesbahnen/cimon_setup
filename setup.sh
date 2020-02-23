@@ -82,6 +82,14 @@ if [[ $? -ne 0 ]]; then
     exit 11
 fi
 
+# stop the anyoing wizzard
+echo "removing raspberry wizzard"
+sudo kill $(ps aux | grep '[p]iwiz' | awk '{print $2}')
+sudo rm /etc/xdg/autostart/piwiz.desktop
+
+echo "setting keyboard"
+sudo cp -f $SETUPDIR/default/keyboard /etc/default/keyboard
+
 mkdir -p ~/cimon
 if [[ $KEYFILE ]]; then
     echo "Copying key.bin..."
