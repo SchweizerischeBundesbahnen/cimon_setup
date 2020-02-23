@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # check if cimon controller is running, and send mail and restart if not
+MYDIR=$(dirname $(readlink -f $0))
+
 SendMailWithLogs() {
-    if [[ -f ~/cimon/.mailto ]]; then
-        echo -e "$2\n-----cimon.log-----\n$(tail -99l /var/log/cimon/cimon.log)\n\n-----cimon_stdouterr.log-----\n$(tail -29l /var/log/cimon/cimon_stdouterr.log)" | mail -s "CIMON $(hostname): $1" $(cat ~/cimon/.mailto)
-     fi
+    echo -e "$2\n-----cimon.log-----\n$(tail -99l /var/log/cimon/cimon.log)\n\n-----cimon_stdouterr.log-----\n$(tail -29l /var/log/cimon/cimon_stdouterr.log)" | bash $MYDIR/../monitoring/send_mail.sh "CIMON $(hostname): $1"
 }
 
 if [[ -f /var/log/cimon/cimon_stdouterr.log ]]; then

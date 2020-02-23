@@ -30,14 +30,7 @@ CheckReturncode() {
 }
 
 SendMail() {
-    if [[ -f ~/cimon/.mailto ]]; then
-        echo -e "$2" | mail -s "CIMON $HN: $1" $(cat ~/cimon/.mailto)
-        if [[ $? -eq 0 ]]; then
-            echo "$(date) Sent mail $1"
-        else
-            echo "$(date) Failed to send email $1"
-        fi
-    fi
+    echo -e "$2" | bash $MYDIR/../monitoring/send_mail.sh "CIMON $HN: $1"
 }
 
 git config --global user.name $HN

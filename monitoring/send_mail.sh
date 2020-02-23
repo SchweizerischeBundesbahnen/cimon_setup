@@ -23,3 +23,10 @@ fi
 
 echo "Sending mail from $FROM to $TO: $TEXT"
 echo -e $TEXT | mail -a "From: $FROM" -s "$SUBJECT" $TO
+if [[ $? -eq 0 ]]; then
+    echo "$(date) Sent mail $SUBJECT to $TO"
+    exit 0
+else
+    echo "$(date) Failed to send email $SUBJECT to $TO"
+    exit 1
+fi
