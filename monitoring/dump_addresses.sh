@@ -19,7 +19,7 @@ if [[ ! $IF ]]; then
     exit 13
 fi
 
-ADDRESS=$(/sbin/ifconfig $IF | head -n 3)
+ADDRESS=$(/sbin/ifconfig -a $IF)
 if [[ ! $ADDRESS ]]; then
     echo "No address found"
     exit 14
