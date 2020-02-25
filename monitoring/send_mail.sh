@@ -22,7 +22,7 @@ if [ -p /dev/stdin ]; then
 fi
 
 echo "Sending mail from $FROM to $TO: $TEXT"
-echo -e $TEXT | mail -a "From: $FROM" -s "$SUBJECT" $TO
+echo -e $TEXT | sed 's/[~]//g' | mail -a "From: $FROM" -s "$SUBJECT" $TO
 if [[ $? -eq 0 ]]; then
     echo "$(date) Sent mail $SUBJECT to $TO"
     exit 0
