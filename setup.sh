@@ -126,7 +126,7 @@ CheckReturncode
 
 # install web page - Ignore for now as it is broken anyway
 #echo "Setup web..."
-#echo "$WEB" > ~/cimon/.autostart_browser
+#echo "$WEB" > ~/cimon/.autostart_broer
 #bash $SETUPDIR/setup_web.sh
 #CheckReturncode
 
@@ -169,6 +169,9 @@ CheckReturncode
 
 echo "Starting ssh daemon..."
 sudo bash $SETUPDIR/setup_ssh.sh >> /dev/null
+
+bash $SETUPDIR/web/install_disable_screensleep.sh
+CheckReturncode
 
 echo "Setting hostname..."
 sudo bash $SETUPDIR/set_hostname.sh $NAME >> /dev/null
