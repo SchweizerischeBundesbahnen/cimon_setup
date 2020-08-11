@@ -88,7 +88,7 @@ sudo kill $(ps aux | grep '[p]iwiz' | awk '{print $2}')
 sudo rm /etc/xdg/autostart/piwiz.desktop
 
 echo "setting keyboard"
-sudo cp -f $SETUPDIR/default/keyboard /etc/default/keyboard
+sudo cp -f $SETUPDIR/controller/default/keyboard /etc/default/keyboard
 
 mkdir -p ~/cimon
 if [[ $KEYFILE ]]; then
