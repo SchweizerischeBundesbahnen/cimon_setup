@@ -124,11 +124,11 @@ echo "Setup autoupdate..."
 bash $SETUPDIR/setup_autoupdate.sh
 CheckReturncode
 
-# install web page - Ignore for now as it is broken anyway
-#echo "Setup web..."
-#echo "$WEB" > ~/cimon/.autostart_browser
-#bash $SETUPDIR/setup_web.sh
-#CheckReturncode
+# install web page
+echo "Setup web..."
+echo "$WEB" > ~/cimon/.autostart_browser
+bash $SETUPDIR/setup_web.sh
+CheckReturncode
 
 
 # free sbb if not allready installed

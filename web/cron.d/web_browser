@@ -1,6 +1,6 @@
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # cimon, SBB, FSe 2016
 # start chromium if not yet running
-*/1 * * * * pi /opt/cimon/web/start_chromium.sh > /dev/null 2>&1
+*/1 * * * * pi /opt/cimon/web/start_web_browser.sh > /dev/null 2>&1
 # kill chromium once a day 5:13 at night to enforce a restart
 13 5 * * * root pkill chromium > /dev/null 2>&1

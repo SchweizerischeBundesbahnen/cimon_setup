@@ -12,21 +12,17 @@ then
     exit 58
 fi
 
-# configure lighttpd
-if grep -Fq "/var/www/html" /etc/lighttpd/lighttpd.conf
-then
-    sudo sed -i -e 's/\/var\/www\/html/\/opt\/cimon\/web\/html/g' /etc/lighttpd/lighttpd.conf
-fi
-
-# configure apache
-sudo bash -c "echo -e '\n<Directory /opt/cimon/web/>\n        Options Indexes FollowSymLinks\n        AllowOverride None\n        Require all granted\n</Directory>' > /etc/apache2/apache2.conf"
-sudo cp $SETUPDIR/sites-available/007-cimon.conf /etc/apache2/sites-available/007-cimon.conf
-sudo ln -s  /etc/apache2/sites-available/007-cimon.conf /etc/apache2/sites-enabled/007-cimon.conf
+# copy lighttpd configfile
+sudo cp $SETUPDIR/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf
 
 sudo service lighttpd restart
 
-# disable web installation as it is broken for now
-#bash $SETUPDIR/update_web.sh
+# install angular client
+bash $SETUPDIR/update_web_client.sh
+
+# copy update script to keep the client up to date automatically
+sudo cp $SETUPDIR/update_web_client.sh /opt/cimon/web/update_web_client.sh
+sudo chmod a+rx /opt/cimon/web/*.sh
 
 echo "Installed Cimon web component"
 
