@@ -11,6 +11,8 @@ ctime_current="$(date +%s)"
 ctime_diff="$((ctime_current-ctime))"
 # if there was nothing written into the log in the last 25 hours, stop the service
 if [ "${ctime_diff}" -gt "${MAX_TIME_NO_LOG_SEC}" ]; then
-  # kill process as the log file was not modified for at least for $ctime_max
+  echo "$(date) there was no logging to ${LOG_FILE} for more than 25 hours. Stopping cimon service." >> /var/log/cimon/cimon_stdouterr.log
   sudo service cimon stop >> /var/log/cimon/cimon_stdouterr.log 2>&1
+  echo "$(date) Cimon service stopped (at least tried to do so)" >> /var/log/cimon/cimon_stdouterr.log
+  sudo service cimon status >> /var/log/cimon/cimon_stdouterr.log2>&1
 fi

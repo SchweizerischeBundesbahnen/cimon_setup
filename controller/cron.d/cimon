@@ -4,3 +4,6 @@
 */5 * * * * pi /opt/cimon/watchdog/watchdog.sh > /dev/null 2>&1
 # reboot cimon box every sunday at 3:42 at night
 42 3 * * 6 root reboot
+# check if there is no logging for more than 25 hours every hour at half past
+30 * * * * pi /opt/cimon/watchdog/stop_if_no_logging.sh > /dev/null 2>&1
+

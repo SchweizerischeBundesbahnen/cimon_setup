@@ -28,6 +28,8 @@ if [[ ! -f /opt/cimon/watchdog/.version || $(cat /opt/cimon/watchdog/.version) !
     mkdir -p /opt/cimon/watchdog
     cp $SETUPDIR/watchdog.sh /opt/cimon/watchdog/watchdog.sh
     sudo chmod a+x /opt/cimon/watchdog/watchdog.sh
+    cp $SETUPDIR/stop_if_no_logging.sh /opt/cimon/watchdog/stop_if_no_logging.sh
+    sudo chmod a+x /opt/cimon/watchdog/stop_if_no_logging.sh
     # cronjob for start/restart in case there is an issue
     sudo cp $SETUPDIR/cron.d/cimon /etc/cron.d/cimon
     sudo chmod g-x,o-x /etc/cron.d/cimon
