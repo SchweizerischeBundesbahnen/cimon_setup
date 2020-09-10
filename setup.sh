@@ -88,7 +88,7 @@ sudo kill $(ps aux | grep '[p]iwiz' | awk '{print $2}')
 sudo rm /etc/xdg/autostart/piwiz.desktop
 
 echo "setting keyboard"
-sudo cp -f $SETUPDIR/default/keyboard /etc/default/keyboard
+sudo cp -f $SETUPDIR/controller/default/keyboard /etc/default/keyboard
 
 mkdir -p ~/cimon
 if [[ $KEYFILE ]]; then
@@ -163,10 +163,6 @@ if [[ $PASSWD ]]; then
     fi
 fi
 
-echo "Setting hostname..."
-sudo bash $SETUPDIR/set_hostname.sh $NAME >> /dev/null
-CheckReturncode
-
 echo "Forcing HDMI output on"
 sudo bash $SETUPDIR/force_hdmi_on.sh >> /dev/null
 CheckReturncode
@@ -177,6 +173,13 @@ CheckReturncode
 
 echo "Starting ssh daemon..."
 sudo bash $SETUPDIR/setup_ssh.sh >> /dev/null
+CheckReturncode
+
+bash $SETUPDIR/web/install_disable_screensleep.sh
+CheckReturncode
+
+echo "Setting hostname..."
+sudo bash $SETUPDIR/set_hostname.sh $NAME >> /dev/null
 CheckReturncode
 
 popd

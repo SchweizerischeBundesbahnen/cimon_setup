@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 # Copyright (C) Schweizerische Bundesbahnen SBB, 2016
 # configure the free sbb wlan access
+CheckReturncode() {
+    RC=$?
+    if [[ $RC -ne 0 ]]; then
+        echo "$(date) Setup freesbb terminated in ERROR"
+        popd
+        exit $RC
+    fi
+}
+
 SETUPDIR=$(dirname $(readlink -f $0))/freesbb
 
 echo "$(date) Starting Setup freesbb..."
