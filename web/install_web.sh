@@ -24,5 +24,8 @@ bash $SETUPDIR/update_web_client.sh
 sudo cp $SETUPDIR/update_web_client.sh /opt/cimon/web/update_web_client.sh
 sudo chmod a+rx /opt/cimon/web/*.sh
 
+# disable screensaver/powersave
+bash $SETUPDIR/install_disable_screensleep.sh
+
 echo "Installed Cimon web component"
 
