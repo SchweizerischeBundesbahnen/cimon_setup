@@ -28,32 +28,16 @@ fi
 sudo cp $SETUPDIR/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
 echo "$(date) Network config files installed"
 
-echo "$(date) Restarting wlan0 and service networking..."
-# restart wlan
-sleep 1
-sudo ifconfig wlan0 down > /dev/null 2>&1
-echo "$(date) wlan0 disabled"
-sleep 2
-sudo ifconfig wlan0 up > /dev/null 2>&1
-echo "$(date) wlan0 re-enabled"
+echo "$(date) Reconfiguring wlan0..."
+sudo wpa_cli -i wlan0 reconfigure
 sleep 5
-# and restart networking just to be sure
-sudo service networking restart
-echo "$(date) networking restarted"
-sleep 5
-sudo ifconfig wlan0 down > /dev/null 2>&1
-echo "$(date) wlan0 disabled"
-sleep 2
-sudo ifconfig wlan0 up > /dev/null 2>&1
-echo "$(date) wlan0 reenabled"
-sleep 5
-echo "$(date) Wlan0 and service networking restarted"
+echo "$(date) Wlan0 reconfigured"
 
 # install the script and cronjob
 bash $SETUPDIR/update_freesbb.sh
 
-echo "$(date) Running the freesbb script after 30 seconds rest..."
-sleep 30
+echo "$(date) Running the freesbb script after 15 seconds rest..."
+sleep 15
 # try connect to freesbb
 python3 /opt/cimon/freesbb/freesbb.py > /dev/null
 if [[ $? -ne 0 ]]; then
@@ -61,6 +45,7 @@ if [[ $? -ne 0 ]]; then
     echo "--------------------------------------------------------------------------------------------------------------"
     echo "$(date) Freesbb script failed, result is $?"
     echo "The most likely reason for this failure is that a reboot is needed to reconfigure the interfaces."
+    echo "If you see this message again after a reboot, press Ctrl+C, manually enable the WIFI and restart the installation script."
     echo "--------------------------------------------------------------------------------------------------------------"
 
     read -n1 -rsp $'Press enter to reboot or Ctrl+C to exit...\n'
