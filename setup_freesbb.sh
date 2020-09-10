@@ -61,6 +61,7 @@ if [[ $? -ne 0 ]]; then
     echo "--------------------------------------------------------------------------------------------------------------"
     echo "$(date) Freesbb script failed, result is $?"
     echo "The most likely reason for this failure is that a reboot is needed to reconfigure the interfaces."
+    echo "If you see this message again after a reboot, press Ctrl+C, manually enable the WIFI and restart the installation script."
     echo "--------------------------------------------------------------------------------------------------------------"
 
     read -n1 -rsp $'Press enter to reboot or Ctrl+C to exit...\n'
