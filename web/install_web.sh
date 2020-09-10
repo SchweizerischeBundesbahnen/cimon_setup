@@ -3,13 +3,19 @@
 
 SETUPDIR=$(dirname $(readlink -f $0))
 
-echo "Installing cimon web component"
+echo "Installing Cimon web component"
 
-# install apache ewebserver
-sudo DEBIAN_FRONTEND=noninteractive apt-get -y install apache2
- if [[ $? -ne 0 ]]; then
-    echo "Failed to install apache2 webserver"
+# install lighttpd webserver
+if ! sudo DEBIAN_FRONTEND=noninteractive apt-get -y install lighttpd
+then
+    echo "Failed to install lighttpd webserver"
     exit 58
+fi
+
+# configure lighttpd
+if grep -Fq "/var/www/html" /etc/lighttpd/lighttpd.conf
+then
+    sudo sed -i -e 's/\/var\/www\/html/\/opt\/cimon\/web\/html/g' /etc/lighttpd/lighttpd.conf
 fi
 
 # configure apache
@@ -17,10 +23,10 @@ sudo bash -c "echo -e '\n<Directory /opt/cimon/web/>\n        Options Indexes Fo
 sudo cp $SETUPDIR/sites-available/007-cimon.conf /etc/apache2/sites-available/007-cimon.conf
 sudo ln -s  /etc/apache2/sites-available/007-cimon.conf /etc/apache2/sites-enabled/007-cimon.conf
 
-sudo service apache2 restart
+sudo service lighttpd restart
 
 # disable web installation as it is broken for now
 #bash $SETUPDIR/update_web.sh
 
-echo "Installed cimon web component"
+echo "Installed Cimon web component"
 
