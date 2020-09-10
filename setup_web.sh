@@ -7,6 +7,9 @@ echo "$(date) Starting setup web..."
 
 bash $SETUPDIR/create_cimon_dir.sh
 
+mkdir -p $SETUPDIR/web
+
+# install http server & angular client
 bash $SETUPDIR/web/install_web.sh
 RC=$?
 if [[ $RC -ne 0 ]]; then
@@ -14,7 +17,8 @@ if [[ $RC -ne 0 ]]; then
     exit $RC
 fi
 
-bash $SETUPDIR/web/udpate_start_web_browser.sh
+# setup browser auto-start
+bash $SETUPDIR/web/install_start_web_browser.sh
 RC=$?
 if [[ $RC -ne 0 ]]; then
     echo "Error installing web browser start script $RC"

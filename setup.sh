@@ -124,11 +124,11 @@ echo "Setup autoupdate..."
 bash $SETUPDIR/setup_autoupdate.sh
 CheckReturncode
 
-# install web page - Ignore for now as it is broken anyway
-#echo "Setup web..."
-#echo "$WEB" > ~/cimon/.autostart_broer
-#bash $SETUPDIR/setup_web.sh
-#CheckReturncode
+# install web page
+echo "Setup web..."
+echo "$WEB" > ~/cimon/.autostart_browser
+bash $SETUPDIR/setup_web.sh
+CheckReturncode
 
 
 # free sbb if not allready installed
@@ -163,12 +163,17 @@ if [[ $PASSWD ]]; then
     fi
 fi
 
+echo "Forcing HDMI output on"
+sudo bash $SETUPDIR/force_hdmi_on.sh >> /dev/null
+CheckReturncode
+
 echo "Adjusting SSL configuration..."
 sudo bash $SETUPDIR/patch_ssl_config.sh >> /dev/null
 CheckReturncode
 
 echo "Starting ssh daemon..."
 sudo bash $SETUPDIR/setup_ssh.sh >> /dev/null
+CheckReturncode
 
 bash $SETUPDIR/web/install_disable_screensleep.sh
 CheckReturncode

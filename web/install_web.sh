@@ -3,24 +3,29 @@
 
 SETUPDIR=$(dirname $(readlink -f $0))
 
-echo "Installing cimon web component"
+echo "Installing Cimon web component"
 
-# install apache ewebserver
-sudo DEBIAN_FRONTEND=noninteractive apt-get -y install apache2
- if [[ $? -ne 0 ]]; then
-    echo "Failed to install apache2 webserver"
+# install lighttpd webserver
+if ! sudo DEBIAN_FRONTEND=noninteractive apt-get -y install lighttpd
+then
+    echo "Failed to install lighttpd webserver"
     exit 58
 fi
 
-# configure apache
-sudo bash -c "echo -e '\n<Directory /opt/cimon/web/>\n        Options Indexes FollowSymLinks\n        AllowOverride None\n        Require all granted\n</Directory>' > /etc/apache2/apache2.conf"
-sudo cp $SETUPDIR/sites-available/007-cimon.conf /etc/apache2/sites-available/007-cimon.conf
-sudo ln -s  /etc/apache2/sites-available/007-cimon.conf /etc/apache2/sites-enabled/007-cimon.conf
+# copy lighttpd configfile
+sudo cp $SETUPDIR/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf
 
-sudo service apache2 restart
+sudo service lighttpd restart
 
-# disable web installation as it is broken for now
-#bash $SETUPDIR/update_web.sh
+# install angular client
+bash $SETUPDIR/update_web_client.sh
 
-echo "Installed cimon web component"
+# copy update script to keep the client up to date automatically
+sudo cp $SETUPDIR/update_web_client.sh /opt/cimon/web/update_web_client.sh
+sudo chmod a+rx /opt/cimon/web/*.sh
+
+# disable screensaver/powersave
+bash $SETUPDIR/install_disable_screensleep.sh
+
+echo "Installed Cimon web component"
 

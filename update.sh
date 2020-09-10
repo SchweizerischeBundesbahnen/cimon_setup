@@ -25,7 +25,10 @@ if [[ -d /opt/cimon/update_config ]]; then
     CheckReturncode
 fi
 
-bash $SETUPDIR/web/update_start_web_browser.sh
+bash $SETUPDIR/web/update_disable_screensleep.sh
+CheckReturncode
+
+bash $SETUPDIR/web/update_web_client.sh
 CheckReturncode
 
 # update the monitoring (only on jessy, on newer raspbian systemd does that)
